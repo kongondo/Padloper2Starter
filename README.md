@@ -55,6 +55,9 @@ TBD
 ### Pages
 
 You need to create a **products** and a **categories** page under your root page (home). They should use the similarly named templates respectively.
+
+The template files for above pages are:
+
 <code>products.php</code> -> for all or single product
 <code>categories.php</code> -> for all or single category
 
