@@ -54,8 +54,11 @@ TBD
 
 ### Pages
 
+You need to create a **products** and a **categories** page under your root page (home). They should use the similarly named templates respectively.
 <code>products.php</code> -> for all or single product
 <code>categories.php</code> -> for all or single category
+
+You will also need a checkout page. Please follow the [instructions](https://docs.kongondo.com/start/checkout/checkout-process.html) in the Padloper documentation for setting that up.
 
 @note: shop pages (exports), e.g. products not (yet?) included in this repo.
 
