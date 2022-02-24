@@ -57,84 +57,84 @@ $checkout = $padloper->checkout;
 */
 
 $customFormFields = [
-    // first name
-    [
-        // the name of the input of the custom form
-        'input_name' => 'first_name',
-        // the equivalent name if you were to use padloper inbuilt ProcessWire $form
-        // @TODO @NOTE: might change in the future!
-        'equivalent_padloper_input_name' => 'first_name',
-        // the input type (for sanitization)
-        // @todo: @note: for selects and checkbox, use the expected value type
-        'type' => 'text',
-        // if field/input is required
-        'required' => true
-    ],
-    // last name
-    [
-        'input_name' => 'last_name',
-        'equivalent_padloper_input_name' => 'last_name',
-        'type' => 'text',
-        'required' => true
-    ],
-    // email
-    [
-        'input_name' => 'email',
-        'equivalent_padloper_input_name' => 'email',
-        'type' => 'email',
-        'required' => true
-    ],
-    // address line one
-    [
-        'input_name' => 'address_line_one',
-        'equivalent_padloper_input_name' => 'shipping_address_line_one',
-        'type' => 'text',
-        'required' => true
-    ],
-    // address line two
-    [
-        'input_name' => 'address_line_two',
-        'equivalent_padloper_input_name' => 'shipping_address_line_two',
-        'type' => 'text',
-    ],
-    // city/town
-    [
-        'input_name' => 'city',
-        'equivalent_padloper_input_name' => 'shipping_address_city',
-        'type' => 'text',
-        'required' => true
-    ],
-    // postcode
-    [
-        'input_name' => 'postcode',
-        'equivalent_padloper_input_name' => 'shipping_address_postal_code',
-        'type' => 'text',
-        'required' => true
-    ],
-    // country
-    [
-        'input_name' => 'country',
-        'equivalent_padloper_input_name' => 'shipping_address_country',
-        // @note: country ID, hence integer!
-        'type' => 'integer',
-        'required' => true
-    ],
-    // region/state/province
-    [
-        'input_name' => 'state',
-        'equivalent_padloper_input_name' => 'shipping_address_region',
-        'type' => 'text'
-    ],
-    // ------------------------
+	// first name
+	[
+		// the name of the input of the custom form
+		'input_name' => 'first_name',
+		// the equivalent name if you were to use padloper inbuilt ProcessWire $form
+		// @TODO @NOTE: might change in the future!
+		'equivalent_padloper_input_name' => 'first_name',
+		// the input type (for sanitization)
+		// @todo: @note: for selects and checkbox, use the expected value type
+		'type' => 'text',
+		// if field/input is required
+		'required' => true
+	],
+	// last name
+	[
+		'input_name' => 'last_name',
+		'equivalent_padloper_input_name' => 'last_name',
+		'type' => 'text',
+		'required' => true
+	],
+	// email
+	[
+		'input_name' => 'email',
+		'equivalent_padloper_input_name' => 'email',
+		'type' => 'email',
+		'required' => true
+	],
+	// address line one
+	[
+		'input_name' => 'address_line_one',
+		'equivalent_padloper_input_name' => 'shipping_address_line_one',
+		'type' => 'text',
+		'required' => true
+	],
+	// address line two
+	[
+		'input_name' => 'address_line_two',
+		'equivalent_padloper_input_name' => 'shipping_address_line_two',
+		'type' => 'text',
+	],
+	// city/town
+	[
+		'input_name' => 'city',
+		'equivalent_padloper_input_name' => 'shipping_address_city',
+		'type' => 'text',
+		'required' => true
+	],
+	// postcode
+	[
+		'input_name' => 'postcode',
+		'equivalent_padloper_input_name' => 'shipping_address_postal_code',
+		'type' => 'text',
+		'required' => true
+	],
+	// country
+	[
+		'input_name' => 'country',
+		'equivalent_padloper_input_name' => 'shipping_address_country',
+		// @note: country ID, hence integer!
+		'type' => 'integer',
+		'required' => true
+	],
+	// region/state/province
+	[
+		'input_name' => 'state',
+		'equivalent_padloper_input_name' => 'shipping_address_region',
+		'type' => 'text'
+	],
+	// ------------------------
 
-    // SPECIAL (NON-ALIASED)
-    // PAYMENT TYPE/CLASS
-    // @todo: @note: name might change!
-    [
-        'input_name' => 'padloper_order_payment_id',
-        'type' => 'integer',
-        'required' => true
-    ],
+	// SPECIAL (NON-ALIASED)
+	// PAYMENT TYPE/CLASS
+	// @todo: @note: name might change!
+	[
+		'input_name' => 'padloper_order_payment_id',
+		'type' => 'integer',
+		'required' => true
+	],
 
 ];
 
@@ -153,39 +153,44 @@ $isCustomForm = true;
 // }
 // $isCustomForm = false;
 
-// @TODO: WIP
+// @TODO: RETHINK BELOW! CAN'T WE PASS PadloperCheckout::render() a parameter to tell NOT TO RENDER CONTENT? IT CAN THEN CONTINUE TO LISTEN TO CANCEL/SUCCESS/CONFIRMATION/INVOICE and handle those urlSegments. In those cases it does not need any special form. This means that our only 'issue' is renderForm(). If we pass this flag, instead of it will ignore rendering BUT LISTEN TO POST OF BUTTON customerForm. To handle it, again if custom, it will pass to processCustomOrderCustomerForm::render(). Hence, we can still use our custom form, do the equivalent, etc! HOWEVER, IF CUSTOM, THEN HERE, WE LISTEN TO RESPONSE FROM $checkout->render() -> feels a bit dirty since it actually doesn't render anything (or renders a blan!) but also returns WireData error messages. We can continue to use those as usual in formErrors and previousValues
 // ----------------
 $options = [
-    // determines if to output internal form using renderForm() vs dev using custom form
-    'is_custom_form' => $isCustomForm,
-    // will hold schema for form inputs if custom form will be used
-    'custom_form_fields' => $customFormFields,
-    // when custom form is used, will it use custom input names or identical names to internal form
-    'is_use_custom_form_input_names' => true
+	// determines if to output internal form using renderForm() vs dev using custom form
+	'is_custom_form' => $isCustomForm,
+	// will hold schema for form inputs if custom form will be used
+	'custom_form_fields' => $customFormFields,
+	// when custom form is used, will it use custom input names or identical names to internal form
+	'is_use_custom_form_input_names' => true
 
 ];
-
+/** @var WireData $response */
+// $response = $checkout->render($options);
+// // bd($response, __METHOD__ . ': $response at line #' . __LINE__);
+// // db($response, __METHOD__ . ': $response WHY HERE? at line #' . __LINE__);
 // ----------
 // @TODO: @NOTE: JUST SHOWING HOW TO USE INBUILT VS CUSTOM FORM
 // YOU WOULDN'T NEED THIS CHECK IF YOU KNEW YOU ARE USING A CUSTOM FORM :-)
 if (!empty($isCustomForm)) {
-    /** @var WireData $response */
-    $response = $checkout->render($options);
-    // bd($response, __METHOD__ . ': $response at line #' . __LINE__);
+	$response = $checkout->render($options);
+	// bd($response, __METHOD__ . ': $response at line #' . __LINE__);
 
-    // handle errors
-    if (!empty($response->errors)) {
-        $formErrors = $response->errors;
-        $previousValues = $response->previousValues;
-        // -----------
-        $content .= renderCheckoutForm($formErrors, $previousValues);
-    } elseif (!empty($response->isProcessedForm)) {
-        // @note: this will be result of renderConfirmation, success, etc when using custom form
-        $content .= $response->content;
-    } else {
-        $content .= renderCheckoutForm($formErrors, $previousValues);
-    }
+	// handle errors
+	if (!empty($response->errors)) {
+		$formErrors = $response->errors;
+		$previousValues = $response->previousValues;
+		// -----------
+		$content .= renderCheckoutForm($formErrors, $previousValues);
+	} elseif (!empty($response->isProcessedForm)) {
+		// @note: this will be result of renderConfirmation, success, etc when using custom form
+		$content .= $response->content;
+	} else {
+		$content .= renderCheckoutForm($formErrors, $previousValues);
+	}
+	// @TODO HERE NEED TO CHECK IF CONFIRMATION AND OUTPUT ITS CONTENT
+	// ---------
+	// $content .= renderCheckoutForm($formErrors, $previousValues);
 } else {
-    // @note: left here for comparison since in this demo, we use a custom form. However, below would utilise the inbuit ProcessWire form
-    $content .= $checkout->render();
+	// @note: left here for comparison. In this demo, we use a custom form. Below would utilise the inbuit ProcessWire form
+	$content .= $checkout->render();
 }

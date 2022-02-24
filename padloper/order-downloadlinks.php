@@ -1,8 +1,10 @@
 <?php
 
 namespace ProcessWire;
-// @TODO WIP
-if (count($downloads)) {
+// --------------
+// ORDER DOWNLOADS
+/** @var array $downloads */
+if (!empty($downloads)) {
   $out = "";
   // --------
   $out .= "<div  id='order_download_links_wrapper' class='container mx-auto px-6 my-4'>" .

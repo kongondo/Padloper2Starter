@@ -125,6 +125,7 @@ function renderProducts($selector = "") {
 	$padloper = wire('padloper');
 	$selector = "template=product,limit=50," . $selector;
 	$products = $padloper->find($selector);
+	// bd($products, __METHOD__ . ': $products at line #' . __LINE__);
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('products-grid-html.php');
 	$t->set('products', $products);
@@ -135,9 +136,10 @@ function renderProducts($selector = "") {
 	return $out;
 }
 
-function renderSingleProduct($product) {
+function renderSingleProduct($product, $templateFileName = '') {
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('single-product-html.php');
+	// $t = getPartialTemplate($templateFileName);
 
 	$padloper = wire('padloper');
 	$cart = $padloper->cart;
@@ -157,16 +159,161 @@ function renderSingleProduct($product) {
 	return $out;
 }
 
+function renderProductVariants(Page $product) {
+	/** @var TemplateFile $t */
+	$t = getPartialTemplate('product-variants-html.php');
+	// -----------
+	$t->set('product', $product);
+	// -------------
+	$out = $t->render();
+	// --------
+	return $out;
+}
+
+function renderProductRatingAndReviews() {
+	/** @var TemplateFile $t */
+	$t = getPartialTemplate('product-rating-and-reviews-html.php');
+	// -------------
+	$out = $t->render();
+	// --------
+	return $out;
+}
+
+function renderPriceAndAddToCart($product) {
+	/** @var TemplateFile $t */
+	$t = getPartialTemplate('product-price-and-add-to-cart-html.php');
+	$t->set('product', $product);
+	// -------------
+	$out = $t->render();
+	// --------
+	return $out;
+}
+
+/**
+ * Find all a product's variants using $pages API.
+ *
+ *
+ * @param Page $product Product page whose variants to return
+ * @return PageArray $variants PagesArray of variants.
+ */
+function getProductVariants(Page $product) {
+	$padloper = wire('padloper');
+	$variants = $padloper->find("template=variant,parent={$product}");
+	// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
+	//---------
+	return $variants;
+}
+
+/**
+ * Find all a product's variants using Find Raw.
+ *
+ * Use findRaw() and return id, title, stock and attribute options fields.
+ *
+ * @param Page $product Product page whose variants to return
+ * @return array $variantsRaw Array of values for variants.
+ */
+function getProductVariantsRaw(Page $product) {
+	$padloper = wire('padloper');
+	$fields = ['id', 'title', 'padloper_product_stock' => 'stock', 'padloper_product_attributes_options' => 'options'];
+	$variantsRaw = $padloper->findRaw("template=variant,parent={$product}", $fields);
+	// bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
+	//---------
+	return $variantsRaw;
+}
+
+/**
+ * Format a findRaw of  a product's variants.
+ *
+ * Return formatted id, title, stock and attribute options fields.
+ *
+ * @param array $variantsRaw A findRaw variants array to format.
+ * @return array $variants Array of formatted values for variants.
+ */
+function getProductVariantsFormattedInfo(array $variantsRaw) {
+	// bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
+	$padloper = wire('padloper');
+	// ------------
+	// format the values into a flat array to easily pass to JavaScript
+	$variants = [];
+	foreach ($variantsRaw as $variantRaw) {
+		$stock = $variantRaw['stock'];
+		$options = $variantRaw['options'];
+		$optionsIDs = (int)implode("", $options);
+		$variant = [
+			'variant_id' => (int)$variantRaw['id'],
+			'name' => $variantRaw['title'],
+			'sku' => $stock['data'],
+			'price' => $stock['price'],
+			'compare_price' => $stock['compare_price'],
+			'price_with_currency' => $padloper->getValueFormattedAsCurrencyForShop($stock['price']),
+			'compare_price_with_currency' => $padloper->getValueFormattedAsCurrencyForShop($stock['compare_price']),
+			'options_ids' => $optionsIDs
+
+		];
+		// -------
+		// add variant to variants array
+		$variants[] = $variant;
+	}
+	//---------
+	return $variants;
+}
+
+function getVariantFirstImage(Page $variant) {
+	$variantFirstImage = null;
+	if (!empty($variant->padloper_images->count())) {
+		$variantFirstImage = $variant->padloper_images->first();
+	}
+	// -----
+	return $variantFirstImage;
+}
+
+function getVariantImageFromOption(array $optionIDs, $variants, $product = null) {
+	$optionIDsSelector = implode("|", $optionIDs);
+	// bd($optionIDs, __METHOD__ . ': $optionIDs at line #' . __LINE__);
+	// bd($optionIDsSelector, __METHOD__ . ': $optionIDsSelector at line #' . __LINE__);
+	// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
+	// bd($product, __METHOD__ . ': $product at line #' . __LINE__);
+	$variantFirstImage = null;
+	$variantWithImage = $variants->get("padloper_images.count>0, padloper_product_attributes_options={$optionIDsSelector}");
+	// db($variantWithImage, __METHOD__ . ': $variantWithImage at line #' . __LINE__);
+	if (!empty($variantWithImage)) {
+		$variantFirstImage = $variantWithImage->padloper_images->first();
+	} elseif (!empty($product)) {
+		if (!empty($product->padloper_images->count())) {
+			$variantFirstImage = $product->padloper_images->first();
+		}
+	}
+	return $variantFirstImage;
+}
+
+function getNoImageFoundIcon($iconFileName = null) {
+	if (empty($iconFileName)) {
+		$iconFileName = "no-image-icon.png";
+	}
+	$config = wire('config');
+	$iconFilePath = null;
+	if (is_file($config->paths->templates . "images/" . $iconFileName)) {
+		$iconFilePath = $config->urls->templates . "images/" . $iconFileName;
+	}
+	return $iconFilePath;
+}
+
 function renderRelatedProducts($product, $selector = "") {
 	$padloper = wire('padloper');
 	// ------------
 	// find related products
 	// @todo: for now, we only 'relate' using categories
 	$productCategories = $product->padloper_categories;
-	$productCategoriesIDs = $productCategories->implode("|", 'id');
-	// -----------
-	$selector = "template=product,limit=50,categories={$productCategoriesIDs},id!={$product->id}," . $selector;
-	$relatedProducts = $padloper->find($selector);
+	$relatedProducts = null;
+	if (!empty($productCategories->count())) {
+		$productCategoriesIDs = $productCategories->implode("|", 'id');
+		// bd($productCategories, __METHOD__ . ': $productCategories at line #' . __LINE__);
+		// bd($productCategoriesIDs, __METHOD__ . ': $productCategoriesIDs at line #' . __LINE__);
+		// -----------
+		$selector = "template=product,limit=50,categories={$productCategoriesIDs},id!={$product->id}," . $selector;
+		$relatedProducts = $padloper->find($selector);
+	}
+	// bd($relatedProducts, __METHOD__ . ': $relatedProducts at line #' . __LINE__);
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('related-products-html.php');
 	$t->set('relatedProducts', $relatedProducts);
@@ -214,6 +361,8 @@ function renderCarousel() {
 function renderSideCart() {
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('side-cart-html.php');
+	// $cart = $padloper->cart;
+	// $cartItems = $cart->getCart();
 	// -----------
 	$out = $t->render();
 	// --------
@@ -278,13 +427,56 @@ function getPartialTemplate($file) {
 }
 
 function getCartItemThumbURL($cartItem, $cartItemTitle, $isSmall = false) {
+	// bd($cartItem, __METHOD__ . ': $cartItem at line #' . __LINE__);
+	$thumbURL = null;
 	$out = "";
+	/** @var stdClass $cartItem */
 	if (!empty($cartItem->pad_thumb_url)) {
+		$thumbURL = $cartItem->pad_thumb_url;
+	} elseif (!empty($cartItem->pad_is_variant)) {
+		// if item is a variant and it doesn't have a thumb
+		// we try to get one from its sibling
+		// @note: this is a specific example; you will have to adjust this to your shop setup or even not use this approach
+		// in this example, thumbs are stored only in one variant per group of similar variants based on their colour
+		// e.g. all black tshirts don't each need a thumb; only one (first one) gets the thumb
+		// @see the partial template file 'product-variants-html.php' for the assumptions made
+		// -------------
+		$padloper = wire('padloper');
+		// first, get the
+		$variant = $padloper->get("id={$cartItem->product_id}");
+		// bd($variant, __METHOD__ . ': $variant at line #' . __LINE__);
+		// GET THE OPTIONS that make up this variant
+		// we will then extract the 'colour' info from them
+		/** @var PageArray $options */
+		$options = $variant->padloper_product_attributes_options;
+		// bd($options, __METHOD__ . ': $options at line #' . __LINE__);
+		// COLOUR + SIZE OPTIONS ->
+		// @TODO @NOTE: HARDCODED! you need to adjust this for your shop as required!
+		// @TODO: you will also need to account for multilingual setups
+		// we get the option whose parent name is colour
+		# colour option #
+		/** @var Page $colourOption */
+		$colourOption = $options->get("parent.name=colour");
+		// bd($colourOption, __METHOD__ . ': $colourOption at line #' . __LINE__);
+		// ------------
+		// finally, get the sibling with the image
+		/** @var Page $siblingVariant */
+		$siblingVariant = $padloper->get("template=variant,parent={$cartItem->pad_variant_parent_id},images.count>0,options={$colourOption}");
+		// bd($siblingVariant, __METHOD__ . ': $siblingVariant at line #' . __LINE__);
+		if ($siblingVariant->id) {
+			/** @var Pageimage $image */
+			$variantImage = $siblingVariant->padloper_images->first();
+			$variantThumb = $variantImage->height(260);
+			$thumbURL = $variantThumb->url;
+		}
+	}
+	// -----
+	if (!empty($thumbURL)) {
 		// $isSmallClass = empty($isSmall) ? '' : ' h-20 w-20 object-cover rounded';
 		$isSmallClass = empty($isSmall) ? '' : ' h-20 w-20 object-cover';
 		$out .= "<div class='col-span-1 self-center'>
-		<img src='{$cartItem->pad_thumb_url}' alt='{$cartItemTitle}' class='rounded w-full{$isSmallClass}'>
-		</div>";
+				<img src='{$thumbURL}' alt='{$cartItemTitle}' class='rounded w-full{$isSmallClass}'>
+				</div>";
 	}
 	// ------
 	return $out;

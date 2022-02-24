@@ -2,8 +2,15 @@
 
 namespace ProcessWire;
 // -----------------
+// bd($formErrors, __METHOD__ . ': $formErrors at line #' . __LINE__);
+// bd($previousValues, __METHOD__ . ': $previousValues at line #' . __LINE__);
+// bd($shippingCountries, __METHOD__ . ': $shippingCountries at line #' . __LINE__);
 
-// @TODO: WIP
+
+
+// @TODO: HANDLE FORM ERRORS
+
+// @TODO: ALSO RETURN/SHOW PREVIOUS VALUES!
 
 function getFormInputError($formInputName, $formErrors) {
     $errorMarkup = "";
@@ -27,6 +34,7 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
         // if form input was 'valid', we show it again
         $previousValue = $previousValues->get($formInputName);
     }
+    bd($previousValue, __METHOD__ . ': $previousValue at line #' . __LINE__);
     return $previousValue;
 }
 
@@ -88,10 +96,12 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                         <label for="country" class="block text-sm font-medium text-gray-700"><?php echo __("Country"); ?></label>
                         <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-indigo-100">
                             <option></option>
+                            <!-- @todo: get from utilities + dynamic for shipping countries -->
                             <?php
                             $out = "";
                             // in case form failed validation, we need the previous country value to be selected
                             $previousValue = getFormPreviousValues('country', $formErrors, $previousValues);
+                            // bd($previousValue, __METHOD__ . ': $previousValue - PREVIOUS COUNTRY VALUE at line #' . __LINE__);
                             // ------------
                             // @TODO check needed here if no shippingCountries found!
                             foreach ($shippingCountries as $shippingCountry) {
@@ -99,7 +109,9 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                                 // $value = $shippingCountry['code'];
                                 $value = $shippingCountry['id'];
                                 $label = $shippingCountry['name'];
+                                // $selected = $value == $previousValue ? " selected='selected'" : '';
                                 $selected = $value == $previousValue ? " selected" : '';
+                                // bd($selected, __METHOD__ . ': $selected - IS COUNTRY selected? at line #' . __LINE__);
                                 // ------------
                                 $out .= "<option value='{$value}'{$selected}>$label</option>";
                             }
@@ -116,6 +128,7 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                     </div>
 
                 </div>
+                <!-- @TODO INSERT RADIOS FOR SHIPPING (?) NO: HANDLED VIA SHIPPING ZONES SO WILL NEED TO BE IN CONFIRMATION? -->
                 <div class="mt-4 space-y-4">
                     <?php
 
@@ -126,6 +139,7 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                     $out = "";
                     // in case form failed validation, we need the previous payment value to be checked
                     $previousValue = (int) getFormPreviousValues('padloper_order_payment_id', $formErrors, $previousValues);
+                    // bd($previousValue, __METHOD__ . ': $previousValue at line #' . __LINE__);
                     // ---------
                     foreach ($paymentProviders as $paymentGateway) {
                         // @TODO: VALUE IS $id (OF THE PaymentProvider page but might change)
@@ -147,10 +161,7 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                     <!-- <div class="flex items-center">
 						<input id="padloper_payment_paypal" name="pad_paymentmodule" type="radio" value="PadloperPaymentPayPal" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
 						<label for="padloper_payment_paypal" class="required ml-3 block text-sm font-medium text-gray-700" required="required">
-							<?php
-                            // @TODO - GET DYNAMICALLY FROM PROVIDER
-                            echo __("PayPal");
-                            ?>
+							<?php echo __("PayPal"); ?>
 						</label>
 					</div> -->
                     <?php echo getFormInputError('padloper_order_payment_id', $formErrors); ?>

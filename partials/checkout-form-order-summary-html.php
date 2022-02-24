@@ -4,6 +4,12 @@ namespace ProcessWire;
 // -----------------
 // @note: shipping and taxes not included at this stage!
 $subtotal = $padloper->getValueFormattedAsCurrencyForShop($padloper->getOrderTotalAmount());
+$pricesInclusiveOrExclusiveOfTaxStr = "";
+if (!empty($padloper->isPricesIncludeTaxes())) {
+	$pricesInclusiveOrExclusiveOfTaxStr  = __("inc tax");
+} else {
+	$pricesInclusiveOrExclusiveOfTaxStr  = __("ex tax");
+}
 
 ?>
 <!-- CHECKOUT FORM PARTIAL: ORDER SUMMARY  -->
@@ -48,7 +54,10 @@ $subtotal = $padloper->getValueFormattedAsCurrencyForShop($padloper->getOrderTot
 		<div class="px-8 border-b">
 			<!-- SUBTOTAL -->
 			<div class="flex justify-between py-4 text-gray-600">
-				<span><?php echo __("Subtotal"); ?></span>
+				<span><?php
+						echo __("Subtotal");
+						echo " ($pricesInclusiveOrExclusiveOfTaxStr)";
+						?></span>
 				<span class="font-semibold"><?php echo $subtotal; ?></span>
 			</div>
 			<!-- SHIPPING -->
@@ -61,7 +70,7 @@ $subtotal = $padloper->getValueFormattedAsCurrencyForShop($padloper->getOrderTot
 		<!-- TOTAL -->
 		<!-- <div class="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
 			<span><?php echo __("Total"); ?></span>
-			<span>total here</span>
+			<span>€846.98</span>
 		</div> -->
 	</div>
 </div>

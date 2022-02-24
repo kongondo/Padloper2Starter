@@ -2,12 +2,12 @@
 
 namespace ProcessWire;
 
-
+$padloperLogo = $config->urls->templates . "images/padloper_red.png"
 /**
  * _main.php
- * Main markup file
+ * Main markup file (multi-language)
 
- * @TODO WIP -> NOT ALL OF BELOW APPLY
+ * MULTI-LANGUAGE NOTE: Please see the README.txt file
  *
  * This file contains all the main markup for the site and outputs the regions
  * defined in the initialization (_init.php) file. These regions include:

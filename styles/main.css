@@ -100,3 +100,166 @@ button#customerForm {
 ul.InputfieldRadiosStacked input {
 	margin-right: 10px;
 }
+
+/* VARIANTS */
+ul.variants_size > li {
+	width: 120px;
+	max-width: 200px;
+}
+
+/* STRIPE */
+
+#payment_form {
+	margin-top: 20px;
+}
+
+#stripe_fullname_wrapper {
+	margin-bottom: 20px;
+}
+
+#stripe_fullname_label {
+	display: block;
+}
+
+#stripe_fullname {
+	-webkit-text-size-adjust: 100%;
+	tab-size: 4;
+	--tw-text-opacity: 1;
+	box-sizing: border-box;
+	border-width: 0;
+	border-style: solid;
+	--tw-translate-x: 0;
+	--tw-translate-y: 0;
+	--tw-rotate: 0;
+	--tw-skew-x: 0;
+	--tw-skew-y: 0;
+	--tw-scale-x: 1;
+	--tw-scale-y: 1;
+	--tw-transform: translateX(var(--tw-translate-x))
+		translateY(var(--tw-translate-y)) rotate(var(--tw-rotate))
+		skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+		scaleY(var(--tw-scale-y));
+	--tw-ring-inset: var(--tw-empty, /*!*/ /*!*/);
+	--tw-ring-offset-width: 0px;
+	--tw-ring-offset-color: #fff;
+	--tw-ring-color: rgb(59 130 246 / 0.5);
+	--tw-ring-offset-shadow: 0 0 #0000;
+	--tw-ring-shadow: 0 0 #0000;
+	font-family: inherit;
+	color: inherit;
+	margin: 0;
+	margin-top: 0.25rem;
+	display: block;
+	width: 100%;
+	--tw-border-opacity: 1;
+	border-color: rgb(209 213 219 / var(--tw-border-opacity));
+	--tw-bg-opacity: 1;
+	background-color: rgb(224 231 255 / var(--tw-bg-opacity));
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	padding-left: 1.25rem;
+	padding-right: 1.25rem;
+	--tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+	--tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+		var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+#stripe_pay_button {
+	--tw-text-opacity: 1;
+	color: rgb(255 255 255 / var(--tw-text-opacity));
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+	--tw-bg-opacity: 1;
+	background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+	border-width: 0px;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	text-transform: none;
+}
+
+/* TEMPORARY */
+
+div#test_shipping_calculation_main_content {
+	width: 100%;
+}
+
+table.test_shipping_and_taxes_calculation {
+	width: 100%;
+	border-bottom: 1px solid gainsboro;
+}
+
+table.test_shipping_and_taxes_calculation thead {
+	text-align: left;
+	border-bottom: 1px solid gainsboro;
+}
+
+table.test_shipping_and_taxes_calculation tbody td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+table.test_shipping_and_taxes_calculation {
+	font-size: smaller;
+	background-color: white;
+}
+
+table.test_shipping_and_taxes_calculation tbody tr td input,
+select#test_shipping_calculation_country_selection {
+	/* text-align: right; */
+	border: 1px solid coral;
+}
+
+select#test_shipping_calculation_country_selection {
+	margin-top: 20px;
+}
+
+div#test_shipping_calculation_button_wrapper {
+	width: 100%;
+	margin-top: 40px;
+	border-bottom: 1px solid gainsboro;
+	/* display: block; */
+	padding-bottom: 40px;
+	text-align: right;
+}
+
+div#test_shipping_calculation_results_wrapper {
+	width: 100%;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	background-color: rgb(240, 225, 140);
+	padding: 10px 8px;
+}
+
+h2.test_shipping_and_taxes_calculation {
+	font-size: x-large;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.danger {
+	background-color: crimson;
+	color: white;
+	padding: 10px;
+}
+
+ol.test_shipping_calculation_matched_rates_list {
+	list-style-type: decimal;
+	width: 100%;
+}
+
+ol.test_shipping_calculation_matched_rates_list > li {
+	margin-bottom: 10px;
+}
+
+ol.test_shipping_calculation_matched_rates_list ul {
+	list-style-type: disc;
+	font-style: italic;
+	list-style-position: inside;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}

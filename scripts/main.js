@@ -5,6 +5,14 @@ const PadloperHtmx = {
 			event.detail.headers[csrf_token.name] = csrf_token.value
 			// add XMLHttpRequest to header to work with $config->ajax
 			event.detail.headers["X-Requested-With"] = "XMLHttpRequest"
+			// console.log(
+			// 	"PadloperHtmx - initHTMXXRequestedWithXMLHttpRequest - csrf_token",
+			// 	csrf_token
+			// )
+			// console.log(
+			// 	"PadloperHtmx - initHTMXXRequestedWithXMLHttpRequest - event",
+			// 	event
+			// )
 		})
 	},
 
@@ -192,18 +200,40 @@ document.addEventListener("alpine:init", () => {
 		// BOOLEANS
 
 		// DATA
-		// carousel
+		/* carousel */
 		carousel_active_slide: 1,
 		carousel_slides: [],
-		// side cart
+		/* side cart */
 		cartOpen: false,
+		/* product attributes */
+		product_attributes: [],
+		/* product attributes options */
+		attributes_options: [],
+		// main product
+		main_product: {},
+		// all product variants
+		product_variants: [],
+		// ************
+		// will contain attribute_id -> option_id for selected variant options
+		// if all keys have values, then a complete variant selection has been made
+		selected_attribute_option_pairs: {},
+		// ************
+		selected_variant: {},
+		selected_variant_product_id: 0,
+		selected_variant_price_with_currency: null,
+
+		/////////////////
+		// @TODO DELETE IF NOT IN USE
+		// product_images: [],
+		// ------
+
+		// active_image: {},
+		// ------
 	})
 
 	Alpine.data("Padloper2DemoData", () => ({
 		//---------------
 		// FUNCTIONS
-
-		// SIDE CART
 
 		// -------
 
@@ -217,6 +247,7 @@ document.addEventListener("alpine:init", () => {
 			this.setAllCarouselData()
 		},
 
+		// SIDE CART
 		initSideCart() {
 			this.setStoreValue("cartOpen", false)
 		},
@@ -254,6 +285,316 @@ document.addEventListener("alpine:init", () => {
 			const carouselData = this.getPadloper2DemoCarouselConfig()
 			this.setStoreValue("carousel_active_slide", carouselData.activeSlide)
 			this.setStoreValue("carousel_slides", carouselData.slides)
+		},
+
+		// *** VARIANTS ***
+		// @TODO DISABLE BUTTON + SHOW MESSAGE ON CLICK IF NO VARIANT SELECTED AND ADD TO CART BUTTON IS CLICKED
+		initVariants() {
+			// SET MAIN PRODUCT
+			this.setMainProduct()
+			// SET INITIAL LOAD IMAGE
+			this.setInitialActiveProductImage()
+			// SET ALL PRODUCT VARIANTS
+			this.setProductVariants()
+			// SET ALL PRODUCT ATTRIBUTES
+			// these are the attributes whose options make us variants
+			this.setProductAttributes()
+			// SET ALL ATTRIBUTES OPTIONS
+			// these are the options that make up variants
+			this.setAttributesOptions()
+			// INIT SELECTED ATTRIBUTE->OPTION PAIRS
+			this.initSelectedAttributeOptionPairs()
+		},
+
+		initSelectedAttributeOptionPairs() {
+			const selectedAttributeOptionPairs = {}
+			// loop through available attributes and init selected option for each as blanks
+			const attributes = this.getStoreValue("product_attributes")
+			for (const attribute of attributes) {
+				selectedAttributeOptionPairs[attribute.id] = null
+			}
+			this.setStoreValue(
+				"selected_attribute_option_pairs",
+				selectedAttributeOptionPairs
+			)
+		},
+
+		/**
+		 *Get the Padloper Demo variants info for current product.
+		 * @returns object.
+		 */
+		getProductVariantsConfigs() {
+			return PadloperDemoVariants
+		},
+
+		getAllProductVariants() {
+			return this.getStoreValue("product_variants")
+		},
+
+		getMainProduct() {
+			return this.getStoreValue("main_product")
+		},
+
+		getAllProductAttributes() {
+			return this.getStoreValue("product_attributes")
+		},
+
+		getAllAttributeOptions() {
+			return this.getStoreValue("attributes_options")
+		},
+
+		getSelectedAttributeOptionPairs() {
+			return this.getStoreValue("selected_attribute_option_pairs")
+		},
+
+		getProductVariantImageByID(variant_id) {
+			let image
+			const allProductVariants = this.getAllProductVariants()
+			// get requested image values
+			const variant = allProductVariants.find(
+				(item) => item.variant_id == variant_id
+			)
+			if (variant) {
+				// destructure variant object to only get image values
+				image = this.getImageValues(variant)
+			}
+			return image
+		},
+
+		getSelectedAttributeOptionName(attribute_id) {
+			const selectedAttributeOptionPairsValues =
+				this.getSelectedAttributeOptionPairs()
+			const selectedOptionIDForAttribute =
+				selectedAttributeOptionPairsValues[attribute_id]
+			let optionName = this.getAttributeOptionNameByID(
+				selectedOptionIDForAttribute
+			)
+			if (!optionName) {
+				optionName = this.getNoOptionSelectedText()
+			}
+			return optionName
+		},
+
+		// Destructure object to only get image values
+		getImageValues(object) {
+			return (({
+				image_thumb_url,
+				image_thumb_big_url,
+				image_full_url,
+				image_alt,
+			}) => ({
+				image_thumb_url,
+				image_thumb_big_url,
+				image_full_url,
+				image_alt,
+			}))(object)
+		},
+
+		getAttributeOptionNameByID(option_id) {
+			const options = this.getAllAttributeOptions()
+			return options[option_id]
+		},
+
+		getNoOptionSelectedText() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			return productVariantsConfigs.no_option_selection
+		},
+
+		// --------------
+		getNoVariantSelectedText() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			return productVariantsConfigs.no_variant_selection
+		},
+
+		getNoVariantSelectedPriceText() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			return productVariantsConfigs.no_variant_selection_price
+		},
+
+		getSelectedVariant() {
+			const selectedVariant = this.getStoreValue("selected_variant")
+				? this.getStoreValue("selected_variant")
+				: {}
+			return selectedVariant
+		},
+
+		getSelectedProductVariantName() {
+			const selectedVariant = this.getSelectedVariant()
+			let name = selectedVariant.variant_title
+			if (!name) {
+				name = this.getNoVariantSelectedText()
+			}
+			//----
+			return name
+		},
+
+		getSelectedProductVariantPriceWithCurrency() {
+			const selectedVariant = this.getSelectedVariant()
+			//----
+			return selectedVariant.price
+		},
+
+		// @TODO DELETE IF NOT NEEDED
+		getSelectedVariantID() {
+			const selectedVariant = this.getSelectedVariant()
+			//----
+			return selectedVariant.variant_id
+		},
+
+		getProductVariantBySelectedOptionsIDs() {
+			let productVariant
+			// --------
+			// get all available attributes for this product
+			const allProductAttributes = this.getAllProductAttributes()
+			// get all variants for this product
+			const allProductVariants = this.getAllProductVariants()
+			// get the selected options for each available attribute
+			const selectedAttributeOptionPairs =
+				this.getSelectedAttributeOptionPairs()
+
+			// -------------
+			// loop through all product variants
+			// we want to match their 'options make-up' to selected attribute options
+			for (const variant of allProductVariants) {
+				// get the options make-up of this variant
+				// these are made up of 'attribute_id' -> 'option_id' pairs
+				/** @var object variantAttributeOptionPairs */
+				const variantAttributeOptionPairs =
+					variant.variant_attribute_option_pairs
+				/////////////
+				// prepare array to hold matched values for this variant in the loop
+				let matched = []
+				// loop through available attributes to match to selected options
+				for (const attribute of allProductAttributes) {
+					// check if selected attribute option matches this variant's attribute option make-up
+					const isMatch =
+						parseInt(variantAttributeOptionPairs[attribute.id]) ===
+						parseInt(selectedAttributeOptionPairs[attribute.id])
+							? true
+							: false
+					matched.push(isMatch)
+				}
+
+				// check if the last matched array has all TRUE valuues
+				const isAllMatched = !matched.some((item) => item === false)
+				// if all values are matched, break and return the matched variant
+				if (isAllMatched) {
+					productVariant = variant
+					break
+				}
+			}
+
+			// --------------
+
+			return productVariant
+		},
+
+		//#######
+
+		setMainProduct() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			const mainProduct = productVariantsConfigs.main_product
+			this.setStoreValue("main_product", mainProduct)
+		},
+
+		// on load, for variants, we set the main product image as the active image
+		setInitialActiveProductImage() {
+			const mainProduct = this.getStoreValue("main_product")
+			if (mainProduct.image_thumb_url) {
+				// destructure main product object to only get image values
+				const activeImage = this.getImageValues(mainProduct)
+				// --------
+				this.setStoreValue("active_image", activeImage)
+			}
+		},
+
+		setActiveProductVariantImage(variant_id) {
+			const activeImage = this.getProductVariantImageByID(variant_id)
+			this.setStoreValue("active_image", activeImage)
+		},
+
+		setProductVariants() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			const allProductVariants = productVariantsConfigs.all_variants
+			this.setStoreValue("product_variants", allProductVariants)
+		},
+
+		setProductAttributes() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			const productAttributes = productVariantsConfigs.attributes
+			this.setStoreValue("product_attributes", productAttributes)
+		},
+
+		setAttributesOptions() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			const attributesOptions = productVariantsConfigs.options
+			this.setStoreValue("attributes_options", attributesOptions)
+		},
+
+		// @TODO DELETE IF NOT IN USE
+		setProductImages() {
+			const productVariantsConfigs = this.getProductVariantsConfigs()
+			const productImages = productVariantsConfigs.images
+			this.setStoreValue("product_images", productImages)
+		},
+
+		setSelectedOptionForAttribute(option_id, attribute_id) {
+			// ---------
+			// SET SELECTION OPTION TO ITS ATTRIBUTE
+			// first, get the selectedAttributeOptionPairs
+			const selectedAttributeOptionPairs = {
+				...this.getSelectedAttributeOptionPairs(),
+			}
+			// set selected attribute->option pair
+			selectedAttributeOptionPairs[attribute_id] = option_id
+			// set back to store
+			this.setStoreValue(
+				"selected_attribute_option_pairs",
+				selectedAttributeOptionPairs
+			)
+
+			// -----------
+			// CHECK IF NO 'NULLS' in variant attribute->option pairs
+			// i.e., every option selected/set
+			const isVariantSelected = this.isVariantSelected()
+
+			// --------------
+			// IF VARIANT SELECTED, SET IT
+			if (isVariantSelected) {
+				this.setSelectedVariantValues()
+			}
+		},
+
+		// =======================
+		setSelectedVariantValues() {
+			const selectedVariant = this.getProductVariantBySelectedOptionsIDs()
+			// -------
+			// SET SELECTED VARIANT
+			this.setStoreValue("selected_variant", selectedVariant)
+			// SET SELECTED VARIANT IMAGE
+			this.setActiveProductVariantImage(selectedVariant.variant_id)
+			//  SET SELECTED VARIANT ID
+			this.setStoreValue(
+				"selected_variant_product_id",
+				selectedVariant.variant_id
+			)
+			//  SET SELECTED VARIANT PRICE
+			this.setStoreValue(
+				"selected_variant_price_with_currency",
+				selectedVariant.price
+			)
+		},
+
+		isVariantSelected() {
+			const selectedAttributeOptionPairs =
+				this.getSelectedAttributeOptionPairs()
+			const selectedAttributeOptionPairsValues = Object.values(
+				selectedAttributeOptionPairs
+			)
+			const someNull = selectedAttributeOptionPairsValues.some(
+				(item) => item === null
+			)
+			return !someNull
 		},
 
 		// ##############################

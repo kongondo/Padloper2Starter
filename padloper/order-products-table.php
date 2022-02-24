@@ -7,6 +7,11 @@ namespace ProcessWire;
  * @note: $order is a WireData object
  */
 
+
+
+// bd($isOrderGrandTotalComplete, __METHOD__ . ': $isOrderGrandTotalComplete at line #' . __LINE__);
+// bd($orderSubtotal, __METHOD__ . ': $orderSubtotal at line #' . __LINE__);
+
 if (!empty($isOrderConfirmed)) {
 	// ORDER COMPLETE: GRAND TOTAL (total price + taxes + handling fee + shipping - discounts)
 	// @todo:?
@@ -19,6 +24,8 @@ if (!empty($isOrderConfirmed)) {
 	$totalPrice = $padloper->renderCartPriceAndCurrency($orderSubtotal);
 }
 
+
+
 ?>
 <div id='padloper_order_line_items_tables' class="mt-8 mb-4 w-full">
 	<div class="container mx-auto px-6">
@@ -29,7 +36,8 @@ if (!empty($isOrderConfirmed)) {
 			<thead>
 				<tr>
 					<?php
-					// @note: thead > tr > th
+					// thead > tr > th
+
 					$out = "";
 
 					$theadTrThItems = [
@@ -78,10 +86,11 @@ if (!empty($isOrderConfirmed)) {
 						// $orderLineItem->pad_product_notes;
 						# ++++++++++++++++++++++++++
 						// ---------------
-						// @TODO WIP
 						if ($orderLineItem->taxAmountTotal) {
 							$taxTotalAmount = $orderLineItem->taxAmountTotal;
+							// @TODO: SORT THIS OUT - USE PADLOPER 2 API!
 							$out .= "<small class='tax_description block'>" .
+								// @TODO: SORT THIS OUT - USE PADLOPER 2 API
 								$orderLineItem->taxName . " " . $padloper->renderCartPriceAndCurrency($taxTotalAmount) . "</small>";
 						}
 						# ++++++++++++++++++++++++++
@@ -117,6 +126,8 @@ if (!empty($isOrderConfirmed)) {
 					</td>
 				</tr>
 				<?php
+				// @TODO @KONGONDO AMENDMENT
+				// @TODO WORK ON GETTING TAXES
 				$out = "";
 				foreach ($padloper->getOrderTaxTotals($orderLineItems) as $taxShortName => $value) {
 					$out .= "<tr>" .

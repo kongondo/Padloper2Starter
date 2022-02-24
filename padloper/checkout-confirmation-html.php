@@ -2,10 +2,31 @@
 
 namespace ProcessWire;
 // ==================
+
+// @TODO @KONGONDO PORT
+
+
 $cart = $padloper->cart;
+// bdb($pl, '$pl -  at line #' . __LINE__);
+// bdb($cart, '$cart -  at line #' . __LINE__);
+// bdb($order, '$order -  at line #' . __LINE__);
+// ==================
+// @TODO @KONGONDO PORT
 $cartRender = $padloper->cartRender;
 // -------
 
+// ------
+// $orderLineItems = $padloper->getOrderLineItems();
+// bd($order, __METHOD__ . ': $order at line #' . __LINE__);
+// bd($orderLineItems, __METHOD__ . ': $orderLineItems at line #' . __LINE__);
+// bd($orderMatchedShippingRates, __METHOD__ . ': $orderMatchedShippingRates at line #' . __LINE__);
+// bd($orderHandlingFeeValues, __METHOD__ . ': $orderHandlingFeeValues at line #' . __LINE__);
+
+// db($order, __METHOD__ . ': $order at line #' . __LINE__);
+// db($orderLineItems, __METHOD__ . ': $orderLineItems at line #' . __LINE__);
+// db($orderCustomer, __METHOD__ . ': $orderCustomer at line #' . __LINE__);
+
+// @kongondo rename here and below
 ?>
 <div class="container mx-auto px-6">
     <h2 class="text-xl font-medium leading-6 text-gray-900 my-4"><?php echo __("Please verify your order"); ?></h2>
@@ -28,6 +49,8 @@ $t->set("order", $order);
 $t->set("orderCustomer", $orderCustomer);
 echo $t->render();
 ?>
+
+
 
 <?php
 

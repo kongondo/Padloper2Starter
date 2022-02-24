@@ -1,28 +1,29 @@
 <?php
 
 namespace ProcessWire;
+// @TODO @KONGONDO PORT
+// $orderLineItems = $padloper->getOrderLineItems();
+// bd($orderLineItems, __METHOD__ . ': $orderLineItems at line #' . __LINE__);
+// db($order, __METHOD__ . ': $order at line #' . __LINE__);
+// db($orderLineItems, __METHOD__ . ': $orderLineItems at line #' . __LINE__);
+// db($orderCustomer, __METHOD__ . ': $orderCustomer at line #' . __LINE__);
 
 $out = "";
 // --------
 
 $cartRender = $padloper->cartRender;
-// @TODO WIP
+// @kongondo rename here and below
+$pd = $modules->get("PadDownloads");
 
 $out .= "<div  id='order_complete_thank_you_wrapper' class='container mx-auto px-6 my-4'>" .
   "<p class='text-xl'>" . __("Thank you. Your order is complete.") .  "</p>" .
   "</div>";
 
-// @TODO WIP
-// $downloads = $padloper->getDownloadCodesFromOrder($order);
-$downloads = [
-  'fake-url-1' => 'Fake Demo Download 1',
-  'fake-url-2' => 'Fake Demo Download 2',
-  'fake-url-3' => 'Fake Demo Download 3',
-];
-
 // --------------
 // ORDER DOWNLOADS
-if (count($downloads) > 0) {
+/** @var array $downloads */
+if (!empty($downloads)) {
+  /** @var TemplateFile $t */
   $t = $cartRender->getPadTemplate("order-downloadlinks.php");
   $t->set("downloads", $downloads);
   $out .= $t->render();
@@ -41,7 +42,7 @@ $t = $cartRender->getPadTemplate("order-meta-information.php");
 $t->set("order", $order);
 $out .= $t->render();
 
-// @TODO WIP
+// @TODO @KONGONGO AMENDMENTS WIP
 // --------------
 // ORDER LINE ITEMS
 $t = $cartRender->getPadTemplate("order-products-table.php");

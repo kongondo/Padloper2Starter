@@ -9,8 +9,8 @@ function getCategorySingleProductImageThumb($category) {
     $product = $padloper->get("template=product, categories={$category->id},images.count>0,status!=unpublished");
     $thumbImage = "";
     if (!empty($product->id)) {
-        $thumb = $product->padloper_images->first()->width(400);
-        $thumbImage = "<img class='hover:grow hover:shadow-lg' src='{$thumb->url}'>";
+        $imageThumb = $product->padloper_images->first()->width(400);
+        $thumbImage = "<img class='hover:grow hover:shadow-lg' src='{$imageThumb->url}'>";
     }
     return $thumbImage;
 }

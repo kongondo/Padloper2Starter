@@ -2,6 +2,7 @@
 
 namespace ProcessWire;
 // ==================
+// @TODO ADD THE LADIES?
 // @TODO INHOUSE IMAGES!
 // @todo @note: hardcoded images for now!
 // @todo @note: 'view product' link is not implemented
@@ -36,7 +37,7 @@ $slides = [
 
 ];
 
-// ALPINE.JS STUFF
+// alpine.js stuff
 $xData = [
 	'activeSlide' => 1,
 	'slides' => $slides,
@@ -45,7 +46,7 @@ $script = "<script>Padloper2Demo=" . json_encode($xData) . ';</script>';
 
 ?>
 <?php
-// DEMO CAROUSEL DATA -> ALPINE.JS
+// demo carousel data -> alpine.js
 echo $script;
 ?>
 
