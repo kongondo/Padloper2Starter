@@ -34,7 +34,9 @@ foreach ($products as $product) {
     // we build a single product's view off urlSegment1 at /products/name-of-product/
     // @note: can be adapted to instead use /products/1234/, where 1234 is the ID of the product
     // @note: $beautify=true
-    $productName = $sanitizer->pageName($product->title, $beautify = true);
+    // $productName = $sanitizer->pageName($product->title, $beautify = true);
+    // @note: this solves the 'amp' in page names
+    $productName = $sanitizer->pageNameTranslate($product->getUnformatted('title'));
     $productURL = "/products/{$productName}/";
     // --------
     $out .= "
