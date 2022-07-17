@@ -17,7 +17,7 @@ if (empty($shopName)) {
 		<div class="text-center">
 			<div class="text-3xl mb-5 font-semibold"><a href="/" class="uppercase"><?php echo $shopName; ?></a></div>
 			<nav class="footer_nav">
-				<ul class="flex justify-center space-x-10 uppercase">
+				<ul class="flex flex-wrap justify-center space-x-10 uppercase">
 					<?php
 
 					$navigationItems = [
