@@ -125,7 +125,6 @@ function renderProducts($selector = "") {
 	$padloper = wire('padloper');
 	$selector = "template=product,limit=50," . $selector;
 	$products = $padloper->find($selector);
-	// bd($products, __METHOD__ . ': $products at line #' . __LINE__);
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('products-grid-html.php');
 	$t->set('products', $products);
@@ -199,7 +198,6 @@ function renderPriceAndAddToCart($product) {
 function getProductVariants(Page $product) {
 	$padloper = wire('padloper');
 	$variants = $padloper->find("template=variant,parent={$product}");
-	// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
 	//---------
 	return $variants;
 }
@@ -216,7 +214,6 @@ function getProductVariantsRaw(Page $product) {
 	$padloper = wire('padloper');
 	$fields = ['id', 'title', 'padloper_product_stock' => 'stock', 'padloper_product_attributes_options' => 'options'];
 	$variantsRaw = $padloper->findRaw("template=variant,parent={$product}", $fields);
-	// bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
 	//---------
 	return $variantsRaw;
 }
@@ -230,7 +227,6 @@ function getProductVariantsRaw(Page $product) {
  * @return array $variants Array of formatted values for variants.
  */
 function getProductVariantsFormattedInfo(array $variantsRaw) {
-	// bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
 	$padloper = wire('padloper');
 	// ------------
 	// format the values into a flat array to easily pass to JavaScript
@@ -269,13 +265,8 @@ function getVariantFirstImage(Page $variant) {
 
 function getVariantImageFromOption(array $optionIDs, $variants, $product = null) {
 	$optionIDsSelector = implode("|", $optionIDs);
-	// bd($optionIDs, __METHOD__ . ': $optionIDs at line #' . __LINE__);
-	// bd($optionIDsSelector, __METHOD__ . ': $optionIDsSelector at line #' . __LINE__);
-	// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
-	// bd($product, __METHOD__ . ': $product at line #' . __LINE__);
 	$variantFirstImage = null;
 	$variantWithImage = $variants->get("padloper_images.count>0, padloper_product_attributes_options={$optionIDsSelector}");
-	// db($variantWithImage, __METHOD__ . ': $variantWithImage at line #' . __LINE__);
 	if (!empty($variantWithImage)) {
 		$variantFirstImage = $variantWithImage->padloper_images->first();
 	} elseif (!empty($product)) {
@@ -307,13 +298,10 @@ function renderRelatedProducts($product, $selector = "") {
 	$relatedProducts = null;
 	if (!empty($productCategories->count())) {
 		$productCategoriesIDs = $productCategories->implode("|", 'id');
-		// bd($productCategories, __METHOD__ . ': $productCategories at line #' . __LINE__);
-		// bd($productCategoriesIDs, __METHOD__ . ': $productCategoriesIDs at line #' . __LINE__);
 		// -----------
 		$selector = "template=product,limit=50,categories={$productCategoriesIDs},id!={$product->id}," . $selector;
 		$relatedProducts = $padloper->find($selector);
 	}
-	// bd($relatedProducts, __METHOD__ . ': $relatedProducts at line #' . __LINE__);
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('related-products-html.php');
 	$t->set('relatedProducts', $relatedProducts);
@@ -439,7 +427,6 @@ function getPartialTemplate($file) {
 }
 
 function getCartItemThumbURL($cartItem, $cartItemTitle, $isSmall = false) {
-	// bd($cartItem, __METHOD__ . ': $cartItem at line #' . __LINE__);
 	$thumbURL = null;
 	$out = "";
 	/** @var stdClass $cartItem */
@@ -456,12 +443,10 @@ function getCartItemThumbURL($cartItem, $cartItemTitle, $isSmall = false) {
 		$padloper = wire('padloper');
 		// first, get the
 		$variant = $padloper->get("id={$cartItem->product_id}");
-		// bd($variant, __METHOD__ . ': $variant at line #' . __LINE__);
 		// GET THE OPTIONS that make up this variant
 		// we will then extract the 'colour' info from them
 		/** @var PageArray $options */
 		$options = $variant->padloper_product_attributes_options;
-		// bd($options, __METHOD__ . ': $options at line #' . __LINE__);
 		// COLOUR + SIZE OPTIONS ->
 		// @TODO @NOTE: HARDCODED! you need to adjust this for your shop as required!
 		// @TODO: you will also need to account for multilingual setups
@@ -469,12 +454,10 @@ function getCartItemThumbURL($cartItem, $cartItemTitle, $isSmall = false) {
 		# colour option #
 		/** @var Page $colourOption */
 		$colourOption = $options->get("parent.name=colour");
-		// bd($colourOption, __METHOD__ . ': $colourOption at line #' . __LINE__);
 		// ------------
 		// finally, get the sibling with the image
 		/** @var Page $siblingVariant */
 		$siblingVariant = $padloper->get("template=variant,parent={$cartItem->pad_variant_parent_id},images.count>0,options={$colourOption}");
-		// bd($siblingVariant, __METHOD__ . ': $siblingVariant at line #' . __LINE__);
 		if ($siblingVariant->id) {
 			/** @var Pageimage $image */
 			$variantImage = $siblingVariant->padloper_images->first();

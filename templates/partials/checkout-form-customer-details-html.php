@@ -2,11 +2,6 @@
 
 namespace ProcessWire;
 // -----------------
-// bd($formErrors, __METHOD__ . ': $formErrors at line #' . __LINE__);
-// bd($previousValues, __METHOD__ . ': $previousValues at line #' . __LINE__);
-// bd($shippingCountries, __METHOD__ . ': $shippingCountries at line #' . __LINE__);
-
-
 
 // @TODO: HANDLE FORM ERRORS
 
@@ -27,11 +22,7 @@ function getFormInputError($formInputName, $formErrors) {
 function getFormPreviousValues($formInputName, $formErrors = [], $previousValues) {
 	$padloper = wire('padloper');
 	$orderCustomer = $padloper->getOrderCustomer();
-	// bd($orderCustomer, __METHOD__ . ': $orderCustomer at line #' . __LINE__);
-	// bd($formInputName, __METHOD__ . ': $formInputName at line #' . __LINE__);
-	// @TODO TESTING DELETE WHEN DONE
 	$previousValues = empty($previousValues) ? $orderCustomer : $previousValues;
-	// if (empty($formErrors) || empty($previousValues)) return;
 	if (empty($previousValues)) return;
 	// ---------
 	// @note: $previousValues will be WireInputData from $input->post of values submitted with the form
@@ -45,15 +36,12 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 		}
 		$previousValue = $previousValues->get($formInputName);
 	}
-	// bd($previousValue, __METHOD__ . ': $previousValue at line #' . __LINE__);
 	return $previousValue;
 }
 
 // @TODO: FORM BELOW COULD DO WITH SOME REFACTORING! E.G. THE GETTING PREVIOUS VALUES BIT!
 ?>
 <!-- CHECKOUT FORM PARTIAL: CUSTOMER DETAILS -->
-<!-- <div id='checkout_form_customer_details_wrapper' class="mt-5 md:mt-0 md:col-span-7"> -->
-<!-- <form id="padloper_order_customer_form" class="custom" method="post" action="./"> -->
 <?php echo $session->CSRF->renderInput(); ?>
 <div class="overflow-hidden">
 	<div class="px-4 py-5 bg-white sm:p-6">
@@ -112,7 +100,6 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 					$out = "";
 					// in case form failed validation, we need the previous country value to be selected
 					$previousValue = getFormPreviousValues('shippingAddressCountry', $formErrors, $previousValues);
-					// bd($previousValue, __METHOD__ . ': $previousValue - PREVIOUS COUNTRY VALUE at line #' . __LINE__);
 					// ------------
 					// @TODO check needed here if no shippingCountries found!
 					foreach ($shippingCountries as $shippingCountry) {
@@ -122,7 +109,6 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 						$label = $shippingCountry['name'];
 						// $selected = $value == $previousValue ? " selected='selected'" : '';
 						$selected = $value == $previousValue ? " selected" : '';
-						// bd($selected, __METHOD__ . ': $selected - IS COUNTRY selected? at line #' . __LINE__);
 						// ------------
 						$out .= "<option value='{$value}'{$selected}>$label</option>";
 					}
@@ -139,7 +125,6 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 			</div>
 
 		</div>
-		<!-- @TODO INSERT RADIOS FOR SHIPPING (?) NO: HANDLED VIA SHIPPING ZONES SO WILL NEED TO BE IN CONFIRMATION? -->
 		<div class="mt-4 space-y-4">
 			<?php
 
@@ -150,7 +135,6 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 			$out = "";
 			// in case form failed validation, we need the previous payment value to be checked
 			$previousValue = (int) getFormPreviousValues('padloper_order_payment_id', $formErrors, $previousValues);
-			// bd($previousValue, __METHOD__ . ': $previousValue at line #' . __LINE__);
 			// ---------
 			foreach ($paymentProviders as $paymentGateway) {
 				// @TODO: VALUE IS $id (OF THE PaymentProvider page but might change)
@@ -169,21 +153,12 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 			echo $out;
 
 			?>
-			<!-- <div class="flex items-center">
-						<input id="padloper_payment_paypal" name="pad_paymentmodule" type="radio" value="PadloperPaymentPayPal" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-						<label for="padloper_payment_paypal" class="required ml-3 block text-sm font-medium text-gray-700" required="required">
-							<?php echo __("PayPal"); ?>
-						</label>
-					</div> -->
 			<?php echo getFormInputError('padloper_order_payment_id', $formErrors); ?>
 		</div>
 	</div>
 
 
 	<div>
-		<button name='customerForm' class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" value="1" type="submit"><?php echo __("Proceed
-										to Confirmation"); ?></button>
+		<button name='customerForm' class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" value="1" type="submit"><?php echo __("Proceed wto Confirmation"); ?></button>
 	</div>
 </div>
-<!-- </form> -->
-<!-- </div> -->

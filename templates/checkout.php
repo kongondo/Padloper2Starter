@@ -4,7 +4,6 @@ namespace ProcessWire;
 
 
 // checkout.php template file.
-// bd($input->post, __METHOD__ . ': $input->post at line #' . __LINE__);
 
 // @DO THE CART IS EMPTY, ETC THING!
 
@@ -166,14 +165,11 @@ $options = [
 ];
 /** @var WireData $response */
 // $response = $checkout->render($options);
-// // bd($response, __METHOD__ . ': $response at line #' . __LINE__);
-// // db($response, __METHOD__ . ': $response WHY HERE? at line #' . __LINE__);
 // ----------
 // @TODO: @NOTE: JUST SHOWING HOW TO USE INBUILT VS CUSTOM FORM
 // YOU WOULDN'T NEED THIS CHECK IF YOU KNEW YOU ARE USING A CUSTOM FORM :-)
 if (!empty($isCustomForm)) {
 	$response = $checkout->render($options);
-	// bd($response, __METHOD__ . ': $response at line #' . __LINE__);
 
 	// handle errors
 	if (!empty($response->errors)) {

@@ -52,24 +52,18 @@ $variantsInfo = [];
 // all variants in product
 /** @var array $variants */
 $variantsRaw = getProductVariantsRaw($product);
-// bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
 $variants = getProductVariantsFormattedInfo($variantsRaw);
-// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
 
 // all options in these variants
 $allOptions = array_column($variantsRaw, 'options');
-// bd($allOptions, __METHOD__ . ': $allOptions at line #' . __LINE__);
 // get all selectable sizes in variants
 $variantsSelectableSizes = getProductSelelectableVariantSizes($allOptions);
-// bd($variantsSelectableSizes, __METHOD__ . ': $variantsSelectableSizes at line #' . __LINE__);
 
 
-// bd($allOptions, __METHOD__ . ': $allOptions at line #' . __LINE__);
 
 $selectVariantForPriceText = __("Select variant for price");
 /** @var PageArray $variantsWithImages */
 $variantsWithImages = $padloper->find("template=variant,parent={$product},images.count>0");
-// bd($variantsWithImages, __METHOD__ . ': $variantsWithImages at line #' . __LINE__);
 // if we have variants with images
 $variantsForAttributeOptionsSelectionsColour = [];
 // first, add the main product image, if any
@@ -97,7 +91,7 @@ if (!empty($variantsWithImages->count())) {
     // we will then extract the 'colour' info from them
     /** @var PageArray $options */
     $options = $variant->padloper_product_attributes_options;
-    // bd($options, __METHOD__ . ': $options at line #' . __LINE__);
+
     // COLOUR + SIZE OPTIONS ->
     // @TODO @NOTE: HARDCODED! you need to adjust this for your shop as required!
     // @TODO: you will also need to account for multilingual setups
@@ -105,7 +99,7 @@ if (!empty($variantsWithImages->count())) {
     # colour option #
     /** @var Page $colourOption */
     $colourOption = $options->get("parent.name=colour");
-    // bd($colourOption, __METHOD__ . ': $colourOption at line #' . __LINE__);
+
     // --------
     $alt = $colourOption->title;
     // --------
@@ -120,7 +114,7 @@ if (!empty($variantsWithImages->count())) {
     // add to variants colours + images array
     $variantsForAttributeOptionsSelectionsColour[] = $imageInfo;
   }
-  // bd($variantsForAttributeOptionsSelectionsColour, __METHOD__ . ': $variantsForAttributeOptionsSelectionsColour at line #' . __LINE__);
+
 
   $imagesInfo = $variantsForAttributeOptionsSelectionsColour;
 

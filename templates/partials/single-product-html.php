@@ -16,11 +16,8 @@ namespace ProcessWire;
 // does this product have variants?
 /** @var bool $isProductWithVariants */
 $isProductWithVariants = $padloper->isProductWithVariants($product);
-// bd($settings, __METHOD__ . ': $settings at line #' . __LINE__);
-// bd($isProductWithVariants, __METHOD__ . ': $isProductWithVariants at line #' . __LINE__);
 // @note: alternative check -> product has children with the template 'padloper-product-variant'
 // $isProductWithVariants = !empty($product->numChildren("template=padloper-product-variant"));;
-// bd($isProductWithVariants, __METHOD__ . ': $isProductWithVariants at line #' . __LINE__);
 
 // ------------
 // INIT SOME VARIABLES
@@ -50,7 +47,7 @@ if ($isProductWithVariants) {
 	// prepare markup to init alpine.js
 	$alpineJSInitMarkup = " x-data='Padloper2DemoData' x-init='initVariants()'";
 	$xstore = "\$store.Padloper2DemoStore";
-	// bd($xstore, __METHOD__ . ': $xstore at line #' . __LINE__);
+
 	// ----------------------
 	// GET RENDERED MARKUP OF PRODUCT VARIANTS
 	$productVariantsMarkup = renderProductVariants($product);

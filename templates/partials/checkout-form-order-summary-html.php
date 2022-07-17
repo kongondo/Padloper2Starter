@@ -2,17 +2,13 @@
 
 namespace ProcessWire;
 
-// bdb($cartItems, __METHOD__ . ': $cartItems at line #' . __LINE__);
 // ------------
 // get IDs of products in cart
 // we want to check if they allow product customisation by customer
 $productIDs = array_column($cartItems, 'product_id');
-// bd($productIDs, __METHOD__ . ': $productIDs at line #' . __LINE__);
 $productIDsSelector = implode("|", $productIDs);
 /** @var array $productIDsAllowCustomisation */
 $productIDsAllowCustomisation = $padloper->findRaw("id={$productIDsSelector},product_is_customisable!=''", 'id');
-// bd($productIDsSelector, __METHOD__ . ': $productIDsSelector at line #' . __LINE__);
-// bd($productIDsAllowCustomisation, __METHOD__ . ': $productIDsAllowCustomisation at line #' . __LINE__);
 // -----------------
 // @note: shipping and taxes not included at this stage!
 $subtotal = $padloper->getValueFormattedAsCurrencyForShop($padloper->getOrderTotalAmount());
@@ -26,11 +22,9 @@ if (!empty($padloper->isPricesIncludeTaxes())) {
 $isHaveOrderLineItemsPages = false;
 
 $isHaveCustomisableProducts = !empty($productIDsAllowCustomisation);
-// bd($isHaveCustomisableProducts, __METHOD__ . ': $isHaveCustomisableProducts at line #' . __LINE__);
 
 ?>
 <!-- CHECKOUT FORM PARTIAL: ORDER SUMMARY  -->
-<!-- <div id='checkout_form_order_summary_wrapper' class="md:col-span-5 md:order-last"> -->
 <div class="px-4 sm:px-0 py-5">
 	<!-- HEADER -->
 	<h3 class="text-lg font-medium leading-6 text-gray-900"><?php echo __("Order Summary"); ?></h3>
@@ -44,12 +38,12 @@ $isHaveCustomisableProducts = !empty($productIDsAllowCustomisation);
 		if (!empty($isHaveCustomisableProducts)) {
 			// check if we have order line item pages
 			$orderLineItemsPages = $padloper->getOrderLineItemsPages();
-			// bdb($orderLineItemsPages, __METHOD__ . ': $orderLineItemsPages at line #' . __LINE__);
+
 			if (!empty($orderLineItemsPages->count())) {
 				$isHaveOrderLineItemsPages = true;
 			}
 		}
-		// bd($isHaveOrderLineItemsPages, __METHOD__ . ': $isHaveOrderLineItemsPages at line #' . __LINE__);
+
 		#################
 		// ----------------
 		$out .= "<ul class='py-6 border-b space-y-6 px-8'>";
@@ -115,10 +109,4 @@ $isHaveCustomisableProducts = !empty($productIDsAllowCustomisation);
 			<span class="text-sm"><?php echo __("Calculated at confirmation."); ?></span>
 		</div>
 	</div>
-	<!-- TOTAL -->
-	<!-- <div class="font-semibold text-xl px-8 flex justify-between py-8 text-gray-600">
-			<span><?php echo __("Total"); ?></span>
-			<span>€846.98</span>
-		</div> -->
 </div>
-<!-- </div> -->

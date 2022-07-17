@@ -8,10 +8,6 @@ namespace ProcessWire;
  */
 
 
-
-// bd($isOrderGrandTotalComplete, __METHOD__ . ': $isOrderGrandTotalComplete at line #' . __LINE__);
-// bd($orderSubtotal, __METHOD__ . ': $orderSubtotal at line #' . __LINE__);
-
 if (!empty($isOrderConfirmed)) {
 	// ORDER COMPLETE: GRAND TOTAL (total price + taxes + handling fee + shipping - discounts)
 	// @todo:?

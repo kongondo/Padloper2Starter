@@ -2,7 +2,6 @@
 
 namespace ProcessWire;
 
-// bd($invoiceUrl, __METHOD__ . ': $invoiceUrl at line #' . __LINE__);
 ?>
 
 <form action='<?php echo $invoiceUrl; ?>'>

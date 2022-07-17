@@ -54,8 +54,6 @@ $mainProductForJavaScript = [
 // all variants in product
 /** @var array $variants */
 $variants = getProductVariants($product);
-// bd($product, __METHOD__ . ': $product at line #' . __LINE__);
-// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
 
 /** @var PageArray $attributes */
 $attributes = $product->padloper_product_attributes;
@@ -64,8 +62,6 @@ $attributes = $product->padloper_product_attributes;
 // $groupingNumber = $numberOfOptions - 1;
 // d($groupingNumber, __METHOD__ . ': $groupingNumber at line #' . __LINE__);
 $attributesNames = $attributes->explode('name');
-// bd($attributes, __METHOD__ . ': $attributes at line #' . __LINE__);
-// bd($attributesNames, __METHOD__ . ': $attributesNames at line #' . __LINE__);
 
 $attributesForJavaScript = $attributes->explode(['id', 'title']);
 
@@ -85,13 +81,13 @@ foreach ($variants as $variant) {
 	// IF VARIANT HAS image get it -> else get from similar option
 	/** @var Pageimage $variantImage */
 	$variantImage = getVariantFirstImage($variant);
-	// bdb($variantImage, __METHOD__ . ': $variantImage at line #' . __LINE__);
+
 	if (empty($variantImage)) {
 		$optionsIDs = $variantOptions->explode('id');
 		/** @var array $variantImage */
 		$variantImage = getVariantImageFromOption($optionsIDs, $variants, $product);
 	}
-	// bdb($variantImage, __METHOD__ . ': $variantImage - FINAL - at line #' . __LINE__);
+
 	//------
 	// @TODO OK?
 	// INIT variant option image with empties
@@ -127,7 +123,6 @@ foreach ($variants as $variant) {
 		$variantOption = $variantOptions->get("parent=$attribute");
 		// --------
 		$attributePrefix = "{$attribute->id}_{$variantOption->id}";
-		// db($variantOption, __METHOD__ . ': $variantOption at line #' . __LINE__);
 		$attributesAndTheirOptions[$attribute->id][$variantOption->id] = [
 			'option_id' => $variantOption->id,
 			'option_title' => $variantOption->title,
@@ -165,13 +160,7 @@ foreach ($variants as $variant) {
 		'image_alt' => $variant->title,
 		'variant_attribute_option_pairs' => $attributeOptionPairsForJavaScript
 	];
-	// bd($attributeOptionPairsForJavaScript, __METHOD__ . ': $attributeOptionPairsForJavaScript at line #' . __LINE__);
-
 }
-// bd($variantsForJavaScript, __METHOD__ . ': $variantsForJavaScript at line #' . __LINE__);
-// db($attributesAndTheirOptions, __METHOD__ . ': $attributesAndTheirOptions at line #' . __LINE__);
-// bdb($attributesAndTheirOptions, __METHOD__ . ': $attributesAndTheirOptions at line #' . __LINE__);
-// bdb($allOptionsForJavaScript, __METHOD__ . ': $allOptionsForJavaScript at line #' . __LINE__);
 
 $selectVariantForPriceText = __("Select variant for price");
 
@@ -208,13 +197,13 @@ $selectVariantForPriceText = __("Select variant for price");
 			$imageThumb = "";
 			$src = "";
 			if (in_array('colour', $attributesNames)) {
-				// bd($attributesNames, __METHOD__ . ': $attributesNames HAVE COLOUR at line #' . __LINE__);
+
 				if ($attribute->name === 'colour') {
 					$src = $option['option_image_thumb'];
 					$imageThumb  = "<img src='{$src}' alt='{$optionTitle}'>";
 				}
 			} else {
-				// bd($attributesNames, __METHOD__ . ': $attributesNames NO COLOUR at line #' . __LINE__);
+
 				$src = $option['option_image_thumb'];
 				$imageThumb  = "<img src='{$src}' alt='{$optionTitle}'>";
 			}

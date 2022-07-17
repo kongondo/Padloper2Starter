@@ -2,9 +2,7 @@
 
 namespace ProcessWire;
 
-// db($orderCustomer, __METHOD__ . ': $orderCustomer at line #' . __LINE__);
-
-// @NOTE: @see documenation (WIP) for all potentially available Order Customer Details/Information
+// @NOTE: @see documentation (WIP) for all potentially available Order Customer Details/Information
 
 ?>
 <div id='order_customer_information_wrapper' class="container mx-auto px-6 my-4">

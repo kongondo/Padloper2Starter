@@ -3,7 +3,6 @@
 namespace ProcessWire;
 // ==================
 $cartItems = $padloper->getCart();
-bd($cartItems, __METHOD__ . ': $cartItems at line #' . __LINE__);
 
 $remove =  __("remove");
 

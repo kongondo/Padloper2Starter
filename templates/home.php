@@ -19,7 +19,6 @@ if ($config->ajax) {
 		// 1. update cart
 		// @note: in this case, only one cart item at a time is getting updated
 		$updatedCartProduct = [$id => $quantity];
-		// bd($updatedCartProduct, __METHOD__ . ': $updatedCartProduct at line #' . __LINE__);
 		// @todo: expected foreach ($updatedCartProduct as $id => $cartProductQuantity)
 		$padloper->updateCart($updatedCartProduct, $rem_products = null, $isRedirect = false);
 	}
