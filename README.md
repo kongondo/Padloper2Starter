@@ -1,6 +1,18 @@
 ﻿# Padloper 2 Starter Site
 
-This repository contains templates, partials, assets and scripts to help you quickly get started with Padloper 2.
+This repository contains various demos for Padloper (aka Padloper 2.). Each branch is a standalone `demo`. This can be based on a feature (e.g. product customisation at checkout) or a technology (htmx, hyperscript, jQuery, etc.).
+
+Please read this main **README** before attempting to use the demos.
+
+The main branch itself does not have any demos. Instead, its purpose is to:
+
+1. Outline a high-level intro to the demos.
+2. Outline requirements, generic notes and instructions.
+3. List and summarise what the individual demos contain.
+
+## Preamble
+
+This repository contains templates, partials, assets and scripts to help you quickly get started with Padloper 2 organised around various demos.
 
 ## Requirements
 
