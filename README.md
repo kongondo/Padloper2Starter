@@ -62,4 +62,12 @@ TBD
 
 TBD
 
+## Layout
+
+Note that the underlying layout files for `Demo 2` differ slightly from those of `Demo 1`. In `Demo 2`, the checkout `form` spans across the whole grid layout to encompass the `order summary` column on the right. This is in order to include the `textarea` inputs used for customer product customisations.
+
 ## Screenshots
+
+*Customisable Products indicators*
+
+![customisable product 1](/_screenshots/product_customisable_1.jpg)
