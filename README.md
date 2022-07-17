@@ -1,6 +1,6 @@
 ﻿# Padloper 2 Starter Site
 
-This repository contains various demos for [Padloper](https://padloper.pw/) (aka Padloper 2.). Each branch is a standalone `demo`. This can be based on a feature (e.g. product customisation at checkout) or a technology (htmx, hyperscript, jQuery, etc.).
+This repository contains various demos for [Padloper](http://padloper.pw/) (aka Padloper 2.). Each branch is a standalone `demo`. This can be based on a feature (e.g. product customisation at checkout) or a technology (htmx, hyperscript, jQuery, etc.).
 
 Please read this main **README** before attempting to use the demos.
 
