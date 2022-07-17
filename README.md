@@ -22,16 +22,21 @@ This demo requires that you create the following 3 custom fields and add this to
 
 ### Amend Product Weight
 
-The hook `customProductWeight` in [ready.php](/ready.php) will amend the `unit weight` of a product variant if the variant has specified a custom weight. This function is hooked into `PadloperUtilities::getProductWeight`.
+The hook `customProductWeight` in [ready.php](/ready.php) will amend the `unit weight` of a product variant if the variant has specified a custom weight. This function hooks into `PadloperUtilities::getProductWeight`.
 
 Please note that if you want to amend the whole weight of the cart, it is possible to hook into `PadloperUtilities::getOrderWeight` instead.
 
 ### Save Product Customisation Details
 
-TBD
+The hook `processOrderProductsCustomisation` in [ready.php](/ready.php) will process, sanitize and save product customisation details related to line items in an order. This function hooks into `PadloperProcessOrder::orderSaved`.
 
+>Please note that the implentation does not take into account multiple quantities of the same line item as separate customisations.
 
 ### Display Product Customisation Details in Order
+
+There are several places we can hook into to customise the markup of the Padloper `view order backend`. It depends on the parts of the GUI that we want to change. In `Demo 2`, we will only change the markup that renders the title of the product that a line item represents. We will append product customisation details after the title, if applicable.
+
+To accomplish the above, we add the hook `customOrderLineItemTableRow` in [ready.php](/ready.php). This function hooks into `PadloperProcessRenderOrders::getSingleViewTableRow`. It amends each applicable individual row in the table that displays line items in an order in `order view` dashboard.
 
 ## Files
 
