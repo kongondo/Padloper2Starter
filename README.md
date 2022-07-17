@@ -18,6 +18,11 @@ This demo requires that you create the following 3 custom fields and add this to
 2. `product_is_customisable`: Add this `FieldtypeCheckbox` field to the Padloper templates for products and product variants, i.e. `padloper-product` and `padloper-product-variant`. Editors will tick this checkbox for products that they want to allow customisation on during checkout.
 3. `product_customise_details`: Add this `InputfieldTextarea` (plain) field to the Padloper template for product order line items, i.e. `padloper-order-line-item`. A hook in [ready.php](/ready.php) will be used to process, sanitize and save custom product instructions from the customer. These will be stored in this field. The frontend textarea to collect the customer data is built in the [product customise details](/templates/partials/checkout-form-customisable-product-details-html.php) template partial. Finally, a hook in [ready.php](/ready.php) will be used to display the custom instructions to the shop admin when they are viewing the order.
 
+
+### Notes
+
+In `Demo 2` we have elected to use only one field and collect information using one textarea. Depending on your needs, you might want to include multiple `html inputs` to allow the customer to enter various customisation requests. You could then save each of these pieces of information in its own field in the order line item template. Alternatively, whilst still collecting various pieces of information using multiple inputs, you could save all the information as `key value pairs` in a `json` string and save that to a single field. This approach is OK since it is not expected for this information to be querable from the frontend.
+
 ## Hooks
 
 ### Amend Product Weight
