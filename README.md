@@ -16,11 +16,22 @@ This demo requires that you create the following 3 custom fields and add this to
 
 1. `custom_weight`: Add this `FieldtypeDecimal` field to the Padloper template for product variants, i.e. `padloper-product-variant`. Editors will fill this when editing product variants that need a custom weight. A hook in [ready.php](/ready.php) will be used to amend the weight during shipping rate calculation.
 2. `product_is_customisable`: Add this `FieldtypeCheckbox` field to the Padloper templates for products and product variants, i.e. `padloper-product` and `padloper-product-variant`. Editors will tick this checkbox for products that they want to allow customisation on during checkout.
-3. `product_customise_details`: Add this `InputfieldTextarea` (plain) field to the Padloper template for product order line items, i.e. `padloper-order-line-item`. A hook in [ready.php](/ready.php) will be used to process, sanitize and save custom product instructions from the customer. The frontend textarea to collect the customer data is built in the [product customise details](/templates/partials/checkout-form-customisable-product-details-html.php) template partial.
+3. `product_customise_details`: Add this `InputfieldTextarea` (plain) field to the Padloper template for product order line items, i.e. `padloper-order-line-item`. A hook in [ready.php](/ready.php) will be used to process, sanitize and save custom product instructions from the customer. These will be stored in this field. The frontend textarea to collect the customer data is built in the [product customise details](/templates/partials/checkout-form-customisable-product-details-html.php) template partial. Finally, a hook in [ready.php](/ready.php) will be used to display the custom instructions to the shop admin when they are viewing the order.
 
 ## Hooks
 
+### Amend Product Weight
+
+The hook `customProductWeight` in [ready.php](/ready.php) will amend the `unit weight` of a product variant if the variant has specified a custom weight. This function is hooked into `PadloperUtilities::getProductWeight`.
+
+Please note that if you want to amend the whole weight of the cart, it is possible to hook into `PadloperUtilities::getOrderWeight` instead.
+
+### Save Product Customisation Details
+
 TBD
+
+
+### Display Product Customisation Details in Order
 
 ## Files
 
