@@ -89,7 +89,7 @@ Unless stated otherwise, all demos use a `partial templates` approach. This mean
 
 ### Demo 1
 
-This is the main Padloper [demo](/tree/demo-1). It is a complete demonstration of a Padloper shop frontend including products and categories/collections display, single product display, add products to checkout and checkout process. It utilises `htmx` and `alpine.js` in various places including checkout. It uses an `ajax-powered` checkout via `htmx`. This means ajax responses are `html`.
+This is the main Padloper [demo](https://github.com/kongondo/Padloper2Starter/tree/demo-1). It is a complete demonstration of a Padloper shop frontend including products and categories/collections display, single product display, add products to checkout and checkout process. It utilises `htmx` and `alpine.js` in various places including checkout. It uses an `ajax-powered` checkout via `htmx`. This means ajax responses are `html`.
 
 
 #### Demo 1-jquery
