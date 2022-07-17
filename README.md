@@ -10,9 +10,11 @@ This is the Padloper **Demo 2**. The main difference between this and [Demo 1](h
 
 In addition, `Demo 2` demonstrates how to use a custom field and hook to amend calculation of `order` weight for product variants. This is useful for cases where the weight of the cart will vary depending on the selected variant of a product. This is illustrated in the use case [mentioned here](https://processwire.com/talk/topic/27348-weight-for-shipping-calculation-different-depending-of-the-variant/) in the Padloper support forums.
 
+Please note that this demo requires that you use a custom checkout form (as per its files) instead of the Padloper inbuilt one. This will give you the flexibility to add custom inputs to the form.
+
 ## Fields
 
-This demo requires that you create the following 3 custom fields and add this to the specified templates. Please use the `fields_data.json` found in the [_fields folder](/_fields/) with the ProcssWire fields imports feature to create these fields.
+This demo requires that you create the following 3 custom fields and add this to the specified templates. Please use the `fields_data.json` found in the [_fields folder](/_fields/) with the ProcessWire fields imports feature to create these fields.
 
 1. `custom_weight`: Add this `FieldtypeDecimal` field to the Padloper template for product variants, i.e. `padloper-product-variant`. Editors will fill this when editing product variants that need a custom weight. A hook in [ready.php](/ready.php) will be used to amend the weight during shipping rate calculation.
 2. `product_is_customisable`: Add this `FieldtypeCheckbox` field to the Padloper templates for products and product variants, i.e. `padloper-product` and `padloper-product-variant`. Editors will tick this checkbox for products that they want to allow customisation on during checkout.
@@ -21,7 +23,7 @@ This demo requires that you create the following 3 custom fields and add this to
 
 ### Notes
 
-In `Demo 2` we have elected to use only one field and collect information using one textarea. Depending on your needs, you might want to include multiple `html inputs` to allow the customer to enter various customisation requests. You could then save each of these pieces of information in its own field in the order line item template. Alternatively, whilst still collecting various pieces of information using multiple inputs, you could save all the information as `key value pairs` in a `json` string and save that to a single field. This approach is OK since it is not expected for this information to be querable from the frontend.
+In `Demo 2` we have elected to use only one field and collect information using one textarea. Depending on your needs, you might want to include multiple `html inputs` to allow the customer to enter various customisation requests. You could then save each of these pieces of information in its own field in the order line item template or in a custom field with subfields (e.g. [Table](https://processwire.com/store/pro-fields/table/)). Alternatively, whilst still collecting various pieces of information using multiple `html form inputs`, you could save all the information as `key value pairs` in a `json` string and save that to a single field. This approach is OK since it is not expected for this information to be querable from the frontend.
 
 ## Hooks
 
