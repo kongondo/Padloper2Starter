@@ -52,24 +52,24 @@ $variantsInfo = [];
 // all variants in product
 /** @var array $variants */
 $variantsRaw = getProductVariantsRaw($product);
-bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
+// bd($variantsRaw, __METHOD__ . ': $variantsRaw at line #' . __LINE__);
 $variants = getProductVariantsFormattedInfo($variantsRaw);
-bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
+// bd($variants, __METHOD__ . ': $variants at line #' . __LINE__);
 
 // all options in these variants
 $allOptions = array_column($variantsRaw, 'options');
-bd($allOptions, __METHOD__ . ': $allOptions at line #' . __LINE__);
+// bd($allOptions, __METHOD__ . ': $allOptions at line #' . __LINE__);
 // get all selectable sizes in variants
 $variantsSelectableSizes = getProductSelelectableVariantSizes($allOptions);
-bd($variantsSelectableSizes, __METHOD__ . ': $variantsSelectableSizes at line #' . __LINE__);
+// bd($variantsSelectableSizes, __METHOD__ . ': $variantsSelectableSizes at line #' . __LINE__);
 
 
-bd($allOptions, __METHOD__ . ': $allOptions at line #' . __LINE__);
+// bd($allOptions, __METHOD__ . ': $allOptions at line #' . __LINE__);
 
 $selectVariantForPriceText = __("Select variant for price");
 /** @var PageArray $variantsWithImages */
 $variantsWithImages = $padloper->find("template=variant,parent={$product},images.count>0");
-bd($variantsWithImages, __METHOD__ . ': $variantsWithImages at line #' . __LINE__);
+// bd($variantsWithImages, __METHOD__ . ': $variantsWithImages at line #' . __LINE__);
 // if we have variants with images
 $variantsForAttributeOptionsSelectionsColour = [];
 // first, add the main product image, if any
@@ -120,7 +120,7 @@ if (!empty($variantsWithImages->count())) {
     // add to variants colours + images array
     $variantsForAttributeOptionsSelectionsColour[] = $imageInfo;
   }
-  bd($variantsForAttributeOptionsSelectionsColour, __METHOD__ . ': $variantsForAttributeOptionsSelectionsColour at line #' . __LINE__);
+  // bd($variantsForAttributeOptionsSelectionsColour, __METHOD__ . ': $variantsForAttributeOptionsSelectionsColour at line #' . __LINE__);
 
   $imagesInfo = $variantsForAttributeOptionsSelectionsColour;
 

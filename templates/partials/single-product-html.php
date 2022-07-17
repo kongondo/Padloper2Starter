@@ -69,6 +69,16 @@ if ($isProductWithVariants) {
 	}
 }
 
+// ##########
+// is product customisable
+// --------
+$productTitle = $product->title;
+$customisableText = "";
+if (!empty($product->product_is_customisable)) {
+	$customisableText .= " <small class='product_is_customisable text-indigo-500'>" . __('customisable') . "</small>";
+	$productTitle .= $customisableText;
+}
+
 // description
 $description = $product->padloper_description;
 
@@ -83,6 +93,10 @@ $post = $config->urls->root;
 // htmx Attributes
 // @note: hx-trigger will be triggered via js by the event 'padloperfetchupdatedcart' which is a result of a single product (direct or related) getting added to the cart.
 
+
+
+
+
 ?>
 
 
@@ -94,7 +108,7 @@ $post = $config->urls->root;
 
 				<div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
 					<h2 class="text-sm title-font text-gray-500 tracking-widest uppercase"><?php echo $brandName; ?></h2>
-					<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><?php echo $product->title; ?></h1>
+					<h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><?php echo $productTitle; ?></h1>
 					<?php
 					// bind and display active/selected variant name if product has variant
 					if ($isProductWithVariants) {

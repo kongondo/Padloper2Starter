@@ -28,6 +28,13 @@ namespace ProcessWire;
 					$imageThumb = $product->padloper_images->first()->width(400);
 					$thumbImage = "<img class='hover:grow hover:shadow-lg' src='{$imageThumb->url}'>";
 				}
+				// ##########
+				// is product customisable
+				// --------
+				$customisableText = "";
+				if (!empty($product->product_is_customisable)) {
+					$customisableText .= " <small class='product_is_customisable text-indigo-500'>" . __('customisable') . "</small>";
+				}
 				// ---------
 				// product url
 				// @note: products do not have own guest viewable pages
@@ -61,7 +68,7 @@ namespace ProcessWire;
 					"</div>" .
 					// related product details
 					"<div class='px-5 py-3'>
-														<h3 class='text-gray-700 uppercase'><a href='{$productURL}'>{$product->title}</a></h3>
+														<h3 class='text-gray-700 uppercase'><a href='{$productURL}'>{$product->title}{$customisableText}</a></h3>
 														<span class='text-gray-500 mt-2'>£{$price}</span>
 										</div>" .
 					// close related product main wrapper and form

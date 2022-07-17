@@ -148,9 +148,16 @@ foreach ($variants as $variant) {
 
 	// ------------
 	// PREPARE VARIANTS INFO FOR JAVASCRIPT
+	$variantTitle = $variant->title;
+	$customisableText = "";
+	if (!empty($variant->product_is_customisable)) {
+		$customisableText .= " (" . __('customisable') . ")";
+		$variantTitle .= $customisableText;
+	}
 	$variantsForJavaScript[] = [
 		'variant_id' => $variant->id,
-		'variant_title' => $variant->title,
+		// 'variant_title' => $variant->title,
+		'variant_title' => $variantTitle,
 		'price' => $priceAsCurrency,
 		'image_thumb_url' => $variantOptionImage['variant_image_thumb_url'],
 		'image_thumb_big_url' => $variantOptionImage['variant_image_thumb_big_url'],
@@ -159,8 +166,9 @@ foreach ($variants as $variant) {
 		'variant_attribute_option_pairs' => $attributeOptionPairsForJavaScript
 	];
 	// bd($attributeOptionPairsForJavaScript, __METHOD__ . ': $attributeOptionPairsForJavaScript at line #' . __LINE__);
-}
 
+}
+// bd($variantsForJavaScript, __METHOD__ . ': $variantsForJavaScript at line #' . __LINE__);
 // db($attributesAndTheirOptions, __METHOD__ . ': $attributesAndTheirOptions at line #' . __LINE__);
 // bdb($attributesAndTheirOptions, __METHOD__ . ': $attributesAndTheirOptions at line #' . __LINE__);
 // bdb($allOptionsForJavaScript, __METHOD__ . ': $allOptionsForJavaScript at line #' . __LINE__);

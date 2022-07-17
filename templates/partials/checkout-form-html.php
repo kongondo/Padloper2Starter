@@ -16,25 +16,36 @@ namespace ProcessWire;
 				</div>
 			</div>
 			<div class="mt-10 sm:mt-0">
-				<div class="md:grid md:grid-cols-12 md:gap-6">
-					<!-- CUSTOMER DETAILS + ORDER SUMMARY -->
-					<?php
-					if (!empty($cartItems)) {
+				<!-- <div class="md:grid md:grid-cols-12 md:gap-6"> -->
+				<!-- CUSTOMER DETAILS + ORDER SUMMARY -->
+				<?php
+				$out = "";
+				if (!empty($cartItems)) {
+					$out .= "<form id='padloper_order_customer_form' class='custom md:grid md:grid-cols-12 md:gap-6' method='post' action='./'>" .
 						// render checkout form
-						echo renderCheckoutFormCustomerDetails($formErrors, $previousValues);
+						// echo renderCheckoutFormCustomerDetails($formErrors, $previousValues);
+						"<div id='checkout_form_customer_details_wrapper' class='mt-5 md:mt-0 md:col-span-7'>" .
+						renderCheckoutFormCustomerDetails($formErrors, $previousValues) .
+						"</div>" .
 						// render order summary
 						// @todo: can make configurable if to show
-						echo renderCheckoutFormOrderSummary($cartItems);
-					} else {
-						// cart is empty
-						$out = "<div class='col-span-full px-4 py-5 bg-white sm:p-6'>" .
-							"<p>" .  __("Your cart is empty.") . "</p>" .
-							"</div>";
-						echo $out;
-					}
+						// echo renderCheckoutFormOrderSummary($cartItems);
+						"<div id='checkout_form_order_summary_wrapper' class='md:col-span-5 md:order-last'>" .
+						renderCheckoutFormOrderSummary($cartItems) .
+						"</div>" .
+						"</form>";
+				} else {
+					// cart is empty
+					$out .= "<div class='col-span-full px-4 py-5 bg-white sm:p-6'>" .
+						"<p>" .  __("Your cart is empty.") . "</p>" .
+						"</div>";
+					// echo $out;
+				}
+				// echo output
+				echo $out;
 
-					?>
-				</div>
+				?>
+				<!-- </div> -->
 			</div>
 
 		</div>
