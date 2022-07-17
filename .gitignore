@@ -1,4 +1,7 @@
-/errors
+/modules
+/assets
+/templates/errors
 admin.php
 basic-page.php
+config.php
 .htaccess
