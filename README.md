@@ -36,7 +36,7 @@ The hook `processOrderProductsCustomisation` in [ready.php](/ready.php) will pro
 
 There are several places we can hook into to customise the markup of the Padloper `view order backend`. It depends on the parts of the GUI that we want to change. In `Demo 2`, we will only change the markup that renders the title of the product that a line item represents. We will append product customisation details after the title, if applicable.
 
-To accomplish the above, we add the hook `customOrderLineItemTableRow` in [ready.php](/ready.php). This function hooks into `PadloperProcessRenderOrders::getSingleViewTableRow`. It amends each applicable individual row in the table that displays line items in an order in `order view` dashboard.
+To accomplish the above, we add the hook `customOrderLineItemTableRow` in [ready.php](/ready.php). This function hooks into `PadloperProcessRenderOrders::getSingleViewTableRow`. It amends each applicable individual row in the table that displays line items in an order in `a single order view` dashboard.
 
 ## Files
 

@@ -23,6 +23,9 @@ $this->addHookAfter('PadloperUtilities::getProductWeight', null, 'customProductW
 // @note: the method PadloperProcessOrder::orderSaved() does not do anything; it is just for hooking so can hook before or after
 $this->addHookBefore('PadloperProcessOrder::orderSaved', null, 'processOrderProductsCustomisation');
 
+# HOOK to amend single order view dashboard to show customer requested product customisation for a line item
+$this->addHookAfter('PadloperProcessRenderOrders::getSingleViewTableRow', null, 'customOrderLineItemTableRow');
+
 
 
 # ~~~~~~~~~~ HOOKS FUNCTIONS ~~~~~~~~~~
@@ -109,7 +112,7 @@ function processOrderProductsCustomisation(HookEvent $event) {
 /**
  * Hook that amends the markup of table rows in the table that displays line items.
  *
- * This is in the order view dashboard that displays line items in a table.
+ * This is in a single order view dashboard that displays line items in a table.
  *
  * @param HookEvent $event
  * @return void
