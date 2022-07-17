@@ -1,41 +1,26 @@
-const PadloperHtmx = {
+const PadloperDemo1 = {
 	initHTMXXRequestedWithXMLHttpRequest: function () {
 		document.body.addEventListener("htmx:configRequest", (event) => {
-			const csrf_token = PadloperHtmx.getCSRFToken()
+			const csrf_token = PadloperDemo1.getCSRFToken()
 			event.detail.headers[csrf_token.name] = csrf_token.value
 			// add XMLHttpRequest to header to work with $config->ajax
 			event.detail.headers["X-Requested-With"] = "XMLHttpRequest"
-			// console.log(
-			// 	"PadloperHtmx - initHTMXXRequestedWithXMLHttpRequest - csrf_token",
-			// 	csrf_token
-			// )
-			// console.log(
-			// 	"PadloperHtmx - initHTMXXRequestedWithXMLHttpRequest - event",
-			// 	event
-			// )
 		})
 	},
 
 	listenToHTMXRequests: function () {
 		// before send
 		htmx.on("htmx:beforeSend", function (event) {
-			// console.log(
-			// 	"PadloperHtmx - listenToHTMXRequests - beforeSend - event",
-			// 	event
-			// )
+			// your beforeSend code here
 		})
 
 		// after swap
 		htmx.on("htmx:afterSwap", function (event) {
-			// console.log(
-			// 	"PadloperHtmx - listenToHTMXRequests - afterSwap - event",
-			// 	event
-			// )
+			// your afterSwap code here
 		})
 
 		// after settle
 		// @note: aftersettle is fired AFTER  afterswap
-		// @todo: maybe even use css to transition in so user doesn't 'perceive' a delay?
 		htmx.on("htmx:afterSettle", function (event) {
 			// ------------
 			// if event was adding single product (and not updating cart amount in side cart)
@@ -43,11 +28,11 @@ const PadloperHtmx = {
 			const pathInfo = event.detail.pathInfo.path
 			if (pathInfo === "/padloper/add/") {
 				const triggerElementID = "padloper_add_single_product"
-				PadloperHtmx.triggerHTMXReloadSideCart(triggerElementID)
+				PadloperDemo1.triggerHTMXReloadSideCart(triggerElementID)
 			}
 			// ----------------
 			// re-init event listeners
-			PadloperHtmx.initMonitorCartItemAmountChange()
+			PadloperDemo1.initMonitorCartItemAmountChange()
 		})
 	},
 	getCSRFToken: function () {
@@ -56,7 +41,7 @@ const PadloperHtmx = {
 		return tokenInput
 	},
 
-	// check if a htmx request included a  'refresh cart' class
+	// check if a htmx request included a 'refresh cart' class
 	// if true, will trigger updating the side cart after settle when cart item amount is changed by a previous htmx operation.
 	isCartItemReloadRequired: function (event) {
 		const triggerElement = event.detail.requestConfig.elt
@@ -74,7 +59,7 @@ const PadloperHtmx = {
 				["click", "dblclick"].forEach(function (event) {
 					i.addEventListener(
 						event,
-						PadloperHtmx.handleCartItemAmountChange,
+						PadloperDemo1.handleCartItemAmountChange,
 						false
 					)
 				})
@@ -93,7 +78,7 @@ const PadloperHtmx = {
 			cartItemAmountUpdateElement = clickedElement.closest("button")
 		}
 
-		PadloperHtmx.setChangedCartItemValues(cartItemAmountUpdateElement)
+		PadloperDemo1.setChangedCartItemValues(cartItemAmountUpdateElement)
 	},
 	setChangedCartItemValues: function (updatedCartItemElement) {
 		const currentCartItemIDInputElement = document.getElementById(
@@ -105,12 +90,11 @@ const PadloperHtmx = {
 
 		if (currentCartItemIDInputElement && currentCartItemQuantityInputElement) {
 			const triggerElementID = "padloper_cart_updater"
-			// @TODO - MAYBE A BIT VERBOSE CALLING ANOTHER METHOD TO SET VALUES?
-			PadloperHtmx.updateCurrentCartItemValues(
+			PadloperDemo1.updateCurrentCartItemValues(
 				currentCartItemIDInputElement,
 				currentCartItemQuantityInputElement,
 				updatedCartItemElement
-			).then(PadloperHtmx.triggerHTMXReloadSideCart(triggerElementID))
+			).then(PadloperDemo1.triggerHTMXReloadSideCart(triggerElementID))
 		}
 	},
 
@@ -144,34 +128,6 @@ const PadloperHtmx = {
 	},
 }
 
-// ------------------
-function jqueryAddToCart() {
-	// jQuery example of how to make add to cart buttons ajaxified
-	$(".padloper-cart-add-product").submit(function (event) {
-		// console.log(event)
-		event.preventDefault()
-		const $form = $(this)
-		const url = $form.attr("action")
-
-		// Send the data using post
-		const posting = $.post(url, $form.serialize())
-
-		posting.done(function (data) {
-			if (data.errors) {
-				let str = ""
-				$.each(data.errors, function (i, val) {
-					str = str + val
-				})
-				alert(str)
-			} else {
-				$("#totalQty").html(data.totalQty)
-				$("#numberOfTitles").html(data.numberOfTitles)
-				$("#totalAmount").html(data.totalAmount)
-			}
-		})
-	})
-}
-
 // ~~~~~~~~~~~~~~~~~~
 
 /**
@@ -180,16 +136,15 @@ function jqueryAddToCart() {
  */
 document.addEventListener("DOMContentLoaded", function (event) {
 	if (typeof htmx !== "undefined") {
-		// console.log("INIT HTMX")
+		// we have htmx
+		// --------
 		// init htmx header
-		PadloperHtmx.initHTMXXRequestedWithXMLHttpRequest()
+		PadloperDemo1.initHTMXXRequestedWithXMLHttpRequest()
 		// init listen to htmx requests
-		PadloperHtmx.listenToHTMXRequests()
+		PadloperDemo1.listenToHTMXRequests()
 		// init listen to sidecart increase/decrease item amount button
-		PadloperHtmx.initMonitorCartItemAmountChange()
+		PadloperDemo1.initMonitorCartItemAmountChange()
 	}
-
-	// jqueryAddToCart()
 })
 
 // ALPINE
@@ -221,14 +176,6 @@ document.addEventListener("alpine:init", () => {
 		selected_variant: {},
 		selected_variant_product_id: 0,
 		selected_variant_price_with_currency: null,
-
-		/////////////////
-		// @TODO DELETE IF NOT IN USE
-		// product_images: [],
-		// ------
-
-		// active_image: {},
-		// ------
 	})
 
 	Alpine.data("Padloper2DemoData", () => ({
