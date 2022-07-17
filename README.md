@@ -68,6 +68,23 @@ Note that the underlying layout files for `Demo 2` differ slightly from those of
 
 ## Screenshots
 
-*Customisable Products indicators*
+*Customisable products indicators*
 
 ![customisable product 1](/_screenshots/product_customisable_1.jpg)
+
+![customisable product 2](/_screenshots/product_customisable_2.jpg)
+
+![customisable product variant](/_screenshots/product_variant_customisable_1.jpg)
+
+
+*Customise product during checkout*
+
+![customisable product 1](/_screenshots/checkout_product_customisation.jpg)
+
+*Mark product as customisable and with custom weight during edit*
+
+![customisable product 1](/_screenshots/product_variant_customisable_and_custom_weight.jpg)
+
+*Amended single order view GUI to show product customisation details in backend*
+
+![customisable product 1](/_screenshots/amended_single_order_view_gui_showing_product_customisation.jpg)
