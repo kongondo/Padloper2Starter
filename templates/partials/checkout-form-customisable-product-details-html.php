@@ -2,7 +2,6 @@
 
 namespace ProcessWire;
 // -----------------
-// bdb($existingProductCustomisationInfo, __METHOD__ . ': $existingProductCustomisationInfo at line #' . __LINE__);
 $productCustomisationInputID = "product_customisation_{$productID}";
 $label = __("Click to customise");
 $label .= " <small class='product_is_customisable text-indigo-500'>" . $productTitle . "</small>";
