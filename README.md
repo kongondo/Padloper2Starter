@@ -72,8 +72,9 @@ You need to create a **products** and a **categories** page under your root page
 
 The template files for above pages are:
 
-<code>/templates/products.php</code> -> for all or single product
-<code>/templates/categories.php</code> -> for all or single category
+<code>/templates/products.php</code> -> for all or single product.
+
+<code>/templates/categories.php</code> -> for all or single category.
 
 You will also need a checkout page. Please follow the [instructions](https://docs.kongondo.com/start/checkout/checkout-process.html) in the Padloper documentation for setting that up.
 
@@ -85,7 +86,7 @@ Images: [Pixabay](https://pixabay.com/) and [Unsplash](https://unsplash.com/).
 
 ## Demos
 
-Unless stated otherwise, all demos use a `partial templates` approach. This means using ProcessWire [TemplateFile](https://processwire.com/api/ref/template-file/) Class to render micro/partial templates within other templates. This increases the flexibility of the template strategy.
+Unless stated otherwise, all demos use a `partial templates` approach. This means using ProcessWire [TemplateFile](https://processwire.com/api/ref/template-file/) Class to render micro/partial templates within other templates. This increases the flexibility of the templating strategy.
 
 ### Demo 1
 
@@ -96,11 +97,15 @@ This is the main Padloper [demo](https://github.com/kongondo/Padloper2Starter/tr
 
 This is identical to `Demo 1` except that checkout ajax is powered by `jQuery` instead of `htmx`. This means that responses to ajax are `json`.
 
+TBD
+
 #### Demo 1-non-ajax
 
 This is identical to `Demo 1` except that checkout is not ajax-powered. Hence, it doesn't use `htmx`.
 
+TBD
+
 
 ### Demo 2
 
-This is similar to demo
+[Demo 2](https://github.com/kongondo/Padloper2Starter/tree/demo-2) is similar to `Demo 1`. In addition, it demonstrates how to add inputs for and collect, process and display customer requests for customisation of elibigle products in their order.
