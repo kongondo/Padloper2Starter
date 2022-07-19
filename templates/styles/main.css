@@ -263,3 +263,15 @@ ol.test_shipping_calculation_matched_rates_list ul {
 	margin-top: 5px;
 	margin-bottom: 10px;
 }
+
+h1 > .product_is_customisable {
+	font-size: small;
+	}
+
+	textarea.product_customisation_details.hide{
+	display: none;
+	}
+
+	textarea.product_customisation_details.open{
+		display: initial;
+	}
