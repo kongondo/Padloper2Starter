@@ -109,3 +109,7 @@ TBD
 ### Demo 2
 
 [Demo 2](https://github.com/kongondo/Padloper2Starter/tree/demo-2) is similar to `Demo 1`. In addition, it demonstrates how to add inputs for and collect, process and display customer requests for customisation of elibigle products in their order.
+
+### Demo 3
+
+[Demo 3](https://github.com/kongondo/Padloper2Starter/tree/demo-3) demonstrates how to use hooks to validate VAT numbers and amend the applicability of EU digital goods tax in relation to business customers. It uses extra custom inputs similar to Demo 2.
