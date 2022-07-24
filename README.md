@@ -8,7 +8,7 @@ Please read the `README` in the [main branch](https://github.com/kongondo/Padlop
 
 This is the Padloper **Demo 3**. The main difference between this and [Demo 2](https://github.com/kongondo/Padloper2Starter/tree/demo-2) is that `Demo 3` shows how you can add inputs for and collect and process VAT information from business customers during checkout. Specifically, how to allow business customers to add VAT information (hence exemption from certain taxes) at checkout and subsequently validate their VAT numbers.
 
-In addition, `Demo 3` demonstrates how to use hooks to validate VAT numbers and amend the applicability of EU digital goods tax. This is illustrated in the use case [mentioned here](https://processwire.com/talk/topic/27271-eu-taxes-for-digital-products//) in the Padloper support forums. In this case, in addition to checking if a customer is based in the EU, if a line item is a digital product and if the shop's policy is to apply EU Digital Goods tax, the hook also checks:
+In addition, `Demo 3` demonstrates how to use hooks to validate VAT numbers and amend the applicability of EU digital goods tax. This is illustrated in the use case [mentioned here](https://processwire.com/talk/topic/27271-eu-taxes-for-digital-products/) in the Padloper support forums. In this case, in addition to checking if a customer is based in the EU, if a line item is a digital product and if the shop's policy is to apply EU Digital Goods tax, the hook also checks:
 
 - If customer is a business customer with a valid VAT Number for their stated (shipping) country.
 - If customer and vendor are located in the same country.
