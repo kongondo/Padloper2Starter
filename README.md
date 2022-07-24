@@ -11,7 +11,7 @@ This is the Padloper **Demo 3**. The main difference between this and [Demo 2](h
 In addition, `Demo 3` demonstrates how to use hooks to validate VAT numbers and amend the applicability of EU digital goods tax. This is illustrated in the use case [mentioned here](https://processwire.com/talk/topic/27271-eu-taxes-for-digital-products//) in the Padloper support forums. In this case, in addition to checking if a customer is based in the EU, if a line item is a digital product and if the shop's policy is to apply EU Digital Goods tax, the hook also checks:
 
 - If customer is a business customer with a valid VAT Number for their stated (shipping) country.
-- If customer shippping country and shop location are located in the same country.
+- If customer and vendor are located in the same country.
 
 Please note that this demo requires that you use a custom checkout form (as per its files) instead of the Padloper inbuilt one. This will give you the flexibility to add custom inputs to the form.
 
@@ -21,14 +21,14 @@ Please note that this demo requires that you use a custom checkout form (as per 
 
 ### Check VAT Number Information for Business Customers
 
-The hook `customCheckCustomOrderCustomerFormForErrors` in [ready.php](/ready.php) will xxxxxxx. This function hooks into `PadloperProcessOrder::getProductWeight`.
+The hook `customCheckCustomOrderCustomerFormForErrors` in [ready.php](/ready.php) will process inputs for VAT for business customers. This function hooks into `PadloperProcessOrder::checkCustomOrderCustomerFormForErrors`.
 
 
 ### Amend Applicability of EU Digital Goods Tax
 
-xxxxxxx
+This hook checks whether to apply tax on digital goods per EU Digital Goods Tax. It carries out the checks specified in the [Demo section above](#demo).
 
-To accomplish the above, we add the hook `customIsChargeEUDigitalGoodsTax` in [ready.php](/ready.php). This function hooks into `PadloperUtilities::isChargeEUDigitalGoodsTax`. xxxxxxx.
+To accomplish the above, we add the hook `customIsChargeEUDigitalGoodsTax` in [ready.php](/ready.php). This function hooks into `PadloperUtilities::isChargeEUDigitalGoodsTax`.
 
 ## Files
 
