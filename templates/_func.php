@@ -391,18 +391,6 @@ function renderCheckoutFormOrderSummary($cartItems) {
 	return $out;
 }
 
-function renderCheckoutFormOrderProductCustomisation($productID, $productTitle, $existingProductCustomisationInfo = null) {
-	/** @var TemplateFile $t */
-	$t = getPartialTemplate('checkout-form-customisable-product-details-html.php');
-	$t->set('productID', $productID);
-	$t->set('productTitle', $productTitle);
-	$t->set('existingProductCustomisationInfo', $existingProductCustomisationInfo);
-	// -----------
-	$out = $t->render();
-	// --------
-	return $out;
-}
-
 function renderCheckoutFormCustomerDetails($formErrors, $previousValues) {
 	/** @var TemplateFile $t */
 	$t = getPartialTemplate('checkout-form-customer-details-html.php');

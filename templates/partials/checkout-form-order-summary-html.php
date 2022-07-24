@@ -2,13 +2,6 @@
 
 namespace ProcessWire;
 
-// ------------
-// get IDs of products in cart
-// we want to check if they allow product customisation by customer
-$productIDs = array_column($cartItems, 'product_id');
-$productIDsSelector = implode("|", $productIDs);
-/** @var array $productIDsAllowCustomisation */
-$productIDsAllowCustomisation = $padloper->findRaw("id={$productIDsSelector},product_is_customisable!=''", 'id');
 // -----------------
 // @note: shipping and taxes not included at this stage!
 $subtotal = $padloper->getValueFormattedAsCurrencyForShop($padloper->getOrderTotalAmount());
@@ -21,7 +14,6 @@ if (!empty($padloper->isPricesIncludeTaxes())) {
 
 $isHaveOrderLineItemsPages = false;
 
-$isHaveCustomisableProducts = !empty($productIDsAllowCustomisation);
 
 ?>
 <!-- CHECKOUT FORM PARTIAL: ORDER SUMMARY  -->
@@ -33,16 +25,6 @@ $isHaveCustomisableProducts = !empty($productIDsAllowCustomisation);
 	$out = "";
 	if (count($cartItems)) {
 		// =====
-		// IF HAVE CUSTOMISABLE PRODUCTS -> check if we have order items
-		// i.e., basket amended after checkout, meaning order line items were created
-		if (!empty($isHaveCustomisableProducts)) {
-			// check if we have order line item pages
-			$orderLineItemsPages = $padloper->getOrderLineItemsPages();
-
-			if (!empty($orderLineItemsPages->count())) {
-				$isHaveOrderLineItemsPages = true;
-			}
-		}
 
 		#################
 		// ----------------
@@ -65,22 +47,6 @@ $isHaveCustomisableProducts = !empty($productIDsAllowCustomisation);
 				"<span class='font-semibold inline-block'>{$totalItemPriceAsCurrency}</span>" .
 				"</div>" .
 				"</div>";
-			// add textarea to customise product if product is customisable
-			if (in_array($cartItem->product_id, $productIDsAllowCustomisation)) {
-				$productID = $cartItem->product_id;
-				$existingProductCustomisationInfo = "";
-				// if we have existing order line items, see if we have saved product customisation values
-				if (!empty($isHaveOrderLineItemsPages)) {
-					// get the order line item page that corresponds to this product ID
-					$orderLineItemPage = $orderLineItemsPages->get("padloper_order_line_item.productID={$productID}");
-					if (!empty($orderLineItemPage)) {
-						$existingProductCustomisationInfo = $orderLineItemPage->get('product_customise_details');
-					}
-				}
-				// ---------
-				// append textarea to collect product customisation info from customer
-				$out .= renderCheckoutFormOrderProductCustomisation($productID, $cartItem->pad_title, $existingProductCustomisationInfo);
-			}
 			// ----------
 			$out .= "</li>";
 		}

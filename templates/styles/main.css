@@ -70,12 +70,31 @@ span#padloper_demo_cart_titles_amount {
 	max-height: 18px;
 	max-width: 18px;
 }
-/* overrid font-awesome values */
+/* override font-awesome values */
 span#padloper_side_cart_spinner {
 	font-size: medium;
 }
 
-/* paypal */
+/* NON-SHOP PAGES */
+div#main_content_wrapper {
+	line-height: 1.75;
+}
+
+div#main_content_wrapper h2 {
+	font-size: larger;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+div#main_content_wrapper p {
+	margin-bottom: 25px;
+}
+
+div#main_content_wrapper a {
+	text-decoration: underline;
+}
+
+/* PAYPAL */
 div#paypal-button-container {
 	padding-left: 1.5rem;
 	padding-right: 1.5rem;
@@ -264,14 +283,12 @@ ol.test_shipping_calculation_matched_rates_list ul {
 	margin-bottom: 10px;
 }
 
-h1 > .product_is_customisable {
-	font-size: small;
-	}
+/* VAT NUMBER DEMO */
 
-textarea.product_customisation_details.hide{
-display: none;
+div.business_customer_vat.hide{
+	display: none;
 }
 
-textarea.product_customisation_details.open{
-	display: initial;
+div.business_customer_vat.open{
+		display: initial;
 }

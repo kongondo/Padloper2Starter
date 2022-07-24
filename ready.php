@@ -16,124 +16,229 @@ if (!defined("PROCESSWIRE")) die();
 
 # ~~~~~~~~~~ CALL HOOKS ~~~~~~~~~~
 
-# HOOK to amend the unit weight of a product variant
-$this->addHookAfter('PadloperUtilities::getProductWeight', null, 'customProductWeight');
+# HOOK to check submitted customer order checkout form for VAT information errors
+// e.g. validation of VAT number for customer
+$this->addHookAfter('PadloperProcessOrder::checkCustomOrderCustomerFormForErrors', null, 'customCheckCustomOrderCustomerFormForErrors');
 
-# HOOK to process custom details for a product customisation by a customer during checkout
-// @note: the method PadloperProcessOrder::orderSaved() does not do anything; it is just for hooking so can hook before or after
-$this->addHookBefore('PadloperProcessOrder::orderSaved', null, 'processOrderProductsCustomisation');
-
-# HOOK to amend single order view dashboard to show customer requested product customisation for a line item
-$this->addHookAfter('PadloperProcessRenderOrders::getSingleViewTableRow', null, 'customOrderLineItemTableRow');
+# HOOK to check if to apply/exempt EU Digital Goods Tax
+$this->addHookAfter('PadloperUtilities::isChargeEUDigitalGoodsTax', null, 'customIsChargeEUDigitalGoodsTax');
 
 
 
 # ~~~~~~~~~~ HOOKS FUNCTIONS ~~~~~~~~~~
 
 /**
- * Hook that amends the unit weight of a single product.
+ * Hook that checks submitted checkout form for VAT information errors.
  *
- * Specifically the unit weight of a product variant
+ * Specifically for customers who state that they are business customers with valid VAT numbers.
  *
  * @param HookEvent $event The Hook event object.
  * @return void
  */
-function customProductWeight(HookEvent $event) {
+function customCheckCustomOrderCustomerFormForErrors(HookEvent $event) {
 
-  // Retrieve argument by name
-  /** @var Page $product */
-  $product = $event->arguments('product');
+	// @note this method has no arguments
+	// Retrieve array of all arguments
+	// $arguments = $event->arguments();
 
-  // 1. FIRST, CHECK IF THIS PRODUCT HAS A CUSTOM WEIGHT FIELD
-  if (!$product->hasField('custom_weight')) {
-    // main product: does not have 'custom_weight' field
-    return;
-  }
+	$padloper = wire('padloper');
+	$post = wire('input')->post;
 
-  // 2. CHECK IF THIS PRODUCT HAS A WEIGHT ENTERED in custom field
-  $unitProductWeight = $product->get('custom_weight');
-  if (empty($unitProductWeight)) {
-    // a variant product without a weight specified: fall back to main product weight
-    return;
-  }
+	// BUSINESS CUSTOMER
+	if (!empty((int)$post->is_business_customer)) {
+		// customer stated that they are a business customer with a valid VAT number
+		$isInvalidVATNumber = false;
+		// ----
+		// if business customer but VAT number empty: error
+		$vatNumber = $post->customer_vat_number;
+		$vatNumber = preg_replace('/\s+/', '', $vatNumber);
+		if (empty($vatNumber)) {
+			$isInvalidVATNumber = true;
+		} else {
+			$customerCountryID = (int) $post->shippingAddressCountry;
+			$customerCountry = getCustomerCountryByID($customerCountryID);
+			$matchedCustomerCountry = $padloper->padloperUtilities->getCountryDetails($customerCountry);
+			$customerCountryCode = null;
+			if (!empty($matchedCustomerCountry['id'])) {
+				$customerCountryCode = $matchedCustomerCountry['id'];
+			}
 
-  // 3. SET VARIANT PRODUCT WEIGHT as return value
-  /** @var float $return */
-  $value = $event->return;
-  $value = (float) $unitProductWeight;
-  // set the modified value back to the return value
-  // PadloperUtilities::getOrderWeight will use this new value to calculate this variants weight
-  // it will take care of computing its total weight based on product quantity
-  $event->return = $value;
+			// check if we got a country code
+			if (empty($customerCountryCode)) {
+				// no country code match for some reason
+				$isInvalidVATNumber = true;
+			} else {
+				// if business customer but VAT number invalid: error
+				$isInvalidVATNumber = empty(isValidVATNumber($customerCountryCode, $vatNumber));
+			}
+		}
+
+		#############
+		// SET return value
+		/** @var array $value */
+		$value = $event->return;
+
+		if ($isInvalidVATNumber) {
+			// set form error input
+			// @note: this will cause checkout to return the form to the customer to correct errors
+			$value[] = 'customer_vat_number';
+		}
+		// set the modified value back to the return value
+		$event->return = $value;
+	}
 }
 
 /**
- * Hook that processes, cleans and saves product customisation details for a line item.
+ * Hook that checks if to apply/exempt EU Digital Goods Tax.
  *
- * @param HookEvent $event
+ * Specifically for customers who state that they are business customers with valid VAT numbers.
+ * Plus customers whose location country is same as vendors.
+ *
+ * @param HookEvent $event The Hook event object.
  * @return void
  */
-function processOrderProductsCustomisation(HookEvent $event) {
-  // we need the input to get the product customisation details
-  // @note: in this example, we assume only a single customisation per line item; i.e. line item quantity not taken into consideration
-  $input = $event->input;
+function customIsChargeEUDigitalGoodsTax(HookEvent $event) {
 
-  // Retrieve argument by name
-  /** @var PageArray $orderLineItemsPages */
-  $orderLineItemsPages = $event->arguments('orderLineItemsPages');
-  /** @var WireArray $orderLineItems */
-  $orderLineItems =  $event->arguments('orderLineItems');
+	/* FIRST CHECK GENERAL APPLICABILITY
+	- we have an order session
+	- customer in EU
+	- shop charges EU customers digital tax
+	- product is digital
 
-  ##############
-  $padloper = wire('padloper');
-  # LOOP THROUGH LINE ITEMS TO SEE WHICH ARE CUSTOMISABLE and if customer sent custom instructions
-  // get product IDs selector in order pages
+	*/
+	$session = wire('session');
+	if (empty($session->get('orderId'))) {
+		// no order session; return early
+		return;
+	}
 
-  $productIDsSelector = $orderLineItems->implode('|', 'productID');
-  // GET IDs of customisable products in these order line items
-  /** @var array $productIDsAllowCustomisation */
-  $productIDsAllowCustomisation = $padloper->findRaw("id={$productIDsSelector},product_is_customisable!=''", 'id');
-  // @note: id -> order line item page ID; productID -> the id of the product this line item represents
-  // @note: there are different approaches here; can loop the line items OR the line items pages OR the product IDs that allow customisation OR the line items values with order line item page ID & product ID
-  foreach ($productIDsAllowCustomisation as $productID) {
-    // get the order line item page that corresponds to this product ID
-    $orderLineItemPage = $orderLineItemsPages->get("padloper_order_line_item.productID={$productID}");
-    if (!empty($orderLineItemPage)) {
-      // grab and sanitize the custom info sent for this line item's product
-      $customisationInfo = $input->post("product_customisation_{$productID}", 'textarea');
-      if (!empty($customisationInfo)) {
-        // set and save the 'product_customise_details' field
-        $orderLineItemPage->setAndSave('product_customise_details', $customisationInfo);
-      }
-    }
-  }
+	// get the event object to give us access to PadloperUtility methods
+	$hookObject = $event->object;
+
+	// get product settings for this line item
+	$lineItemProductSettings = $hookObject->getOrderLineItemProductSettings();
+
+	// ----------
+	// CHECK: is A DIGITAL PRODUCT?
+	// although checked earlier in PadloperUtilities, we just check again
+	if (empty($lineItemProductSettings['data']) || $lineItemProductSettings['data'] !== 'digital') {
+		// INVALID: NOT A DIGITAL PRODUCT
+		return;
+	}
+
+	// ----------
+	// CHECK: shop's policy is to charge EU customers EU digital goods vat taxes?
+	if (empty($hookObject->isShopChargingEUDigitalGoodsVATTaxes())) {
+		// INVALID: NOT CHARGING EU CUSTOMER DIGITAL TAX
+		return;
+	}
+
+	// ----------
+	// CHECK: is customer in the EU?
+	if (empty($hookObject->isOrderCustomerShippingAddressInTheEU())) {
+		// INVALID: CUSTOMER NOT IN THE EU
+		return;
+	}
+
+
+	// +++++++++++++++++++++
+	# ***** GOOD TO GO *****
+
+	$post = wire('input')->post;
+	// ------
+	// @NOTE: HERE WE MIGHT NOT HAVE THIS! SO, USE POST INSTEAD!
+	// $currentOrderCustomer = $padloper->getOrderCustomer();
+	// bd($currentOrderCustomer, __METHOD__ . ': $currentOrderCustomer - at line #' . __LINE__);
+
+	// @note ->  we determine this programmatically
+	$customerVATNo = $post->customer_vat_number;
+	$customerVATNo = preg_replace('/\s+/', '', $customerVATNo);
+	// ---------
+	/** @var int $customerCountryID */
+	$customerCountryID = (int) $post->shippingAddressCountry;
+	/** @var string $customerCountry */
+	$customerCountry = getCustomerCountryByID($customerCountryID);
+	/** @var array $matchedCustomerCountry */
+	$matchedCustomerCountry = $hookObject->getCountryDetails($customerCountry);
+	// -----------
+	$newValue = checkIfChargeEUDigitalTax($customerVATNo, $matchedCustomerCountry);
+
+	// SET return value
+	/** @var bool $value */
+	$value = $event->return;
+	$value = $newValue;
+
+	// set the modified value back to the return value
+	$event->return = $value;
 }
 
-/**
- * Hook that amends the markup of table rows in the table that displays line items.
- *
- * This is in a single order view dashboard that displays line items in a table.
- *
- * @param HookEvent $event
- * @return void
- */
-function customOrderLineItemTableRow(HookEvent $event) {
-  // Retrieve argument by name
-  $page = $event->arguments('page');
-  // ---------
-  // if no custom info, nothing to do
-  $customInfo = $page->product_customise_details;
-  if (empty($customInfo)) {
-    return;
-  }
-  /** @var array $value */
-  $value = $event->return;
-  // modify the title column for this table row
-  $title = $value[0];
-  // append custom info to title
-  $title .= "<div class='mt-3'><em>{$customInfo}</em></div>";
-  // title is the first element in the array; change it
-  $value[0] = $title;
-  // set the modified value back to the return value
-  $event->return = $value;
+function checkIfChargeEUDigitalTax($customerVATNo, $matchedCustomerCountry) {
+
+	$padloper = wire('padloper');
+	$isChargeEUDigitalGoodsTax = false;
+
+	// @TODO MAYBE COULD ALSO CHECK EARLIER IF VATNUMBER IS EMPTY -> although affected by other conditions such as 'same country of origin'
+
+	$customerCountryCode = null;
+	if (!empty($matchedCustomerCountry['id'])) {
+		$customerCountryCode = $matchedCustomerCountry['id'];
+	}
+
+	// get shop settings to grab vendor country code
+	$shopGeneralSettings = $padloper->getShopGeneralSettings();
+	// -----
+	$shopCountryCode = !empty($shopGeneralSettings['country']) ? $shopGeneralSettings['country'] : null;
+
+	$isVendorAndCustomerInSameCountry = false;
+	if (!empty($shopCountryCode) && !empty($customerCountryCode)) {
+		$isVendorAndCustomerInSameCountry = ucwords($shopCountryCode) === ucwords($customerCountryCode);
+	}
+	// bd($isVendorAndCustomerInSameCountry, __METHOD__ . ': $isVendorAndCustomerInSameCountry - FINAL - at line #' . __LINE__);
+	// VENDOR AND CUSTOMER **NOT** IN SAME COUNTRY
+	// check validity of VAT number
+	if (empty($isVendorAndCustomerInSameCountry)) {
+		$isChargeEUDigitalGoodsTax = true;
+		// ONLY FOR BUSINESS CUSTOMERS
+		$post = wire('input')->post;
+		// BUSINESS CUSTOMER
+		if (!empty((int)$post->is_business_customer)) {
+			// ------
+			// CHECK IF VAT NUMBER IS VALID
+			$isValidVATNumber = isValidVATNumber($customerCountryCode, $customerVATNo);
+			if (!empty($isValidVATNumber)) {
+				// ---------------
+				$isChargeEUDigitalGoodsTax = false;
+			}
+		}
+	}
+	// bd($isChargeEUDigitalGoodsTax, __METHOD__ . ': $isChargeEUDigitalGoodsTax - FINAL - at line #' . __LINE__);
+	// ------------
+	return $isChargeEUDigitalGoodsTax;
+}
+
+function isValidVATNumber($countryCode, $vatNumber) {
+	$isValidVATNumber = false;
+	// bd($countryCode, __METHOD__ . ': $countryCode - at line #' . __LINE__);
+	// bd($vatNumber, __METHOD__ . ': $vatNumber - at line #' . __LINE__);
+	if (!empty($vatNumber)) {
+		$wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
+		$client = new \SoapClient($wsdl);
+		// bd($client, __METHOD__ . ': $client - at line #' . __LINE__);
+		// -----
+		/** @var stdClass $vatDetails */
+		$vatDetails = $client->checkVat(array(
+			'countryCode' => $countryCode,
+			'vatNumber' => $vatNumber
+		));
+		// bd($vatDetails, __METHOD__ . ': $vatDetails - at line #' . __LINE__);
+		$isValidVATNumber = !empty($vatDetails->valid);
+	}
+
+	return $isValidVATNumber;
+}
+
+function getCustomerCountryByID($customerCountryID) {
+	$padloper = wire('padloper');
+	$customerCountry = $padloper->getRaw("id={$customerCountryID},template=country", 'title');
+	return $customerCountry;
 }
