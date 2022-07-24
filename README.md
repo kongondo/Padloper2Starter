@@ -30,6 +30,8 @@ This hook checks whether to apply tax on digital goods per EU Digital Goods Tax.
 
 To accomplish the above, we add the hook `customIsChargeEUDigitalGoodsTax` in [ready.php](/ready.php). This function hooks into `PadloperUtilities::isChargeEUDigitalGoodsTax`.
 
+>Please note that this is not a robust solution to validating VAT number! In this implementation, we don't remove country-specific prefixes, etc. You will need to implement robustness in your production code!
+
 ## Files
 
 ### PHP

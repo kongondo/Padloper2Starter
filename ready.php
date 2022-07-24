@@ -43,6 +43,7 @@ function customCheckCustomOrderCustomerFormForErrors(HookEvent $event) {
 
 	$padloper = wire('padloper');
 	$post = wire('input')->post;
+	$sanitizer = wire('sanitizer');
 
 	// BUSINESS CUSTOMER
 	if (!empty((int)$post->is_business_customer)) {
@@ -50,13 +51,16 @@ function customCheckCustomOrderCustomerFormForErrors(HookEvent $event) {
 		$isInvalidVATNumber = false;
 		// ----
 		// if business customer but VAT number empty: error
-		$vatNumber = $post->customer_vat_number;
-		$vatNumber = preg_replace('/\s+/', '', $vatNumber);
-		if (empty($vatNumber)) {
+		$customerVATNo = $sanitizer->purify($post->customer_vat_number);
+		$customerVATNo = preg_replace('/\s+/', '', $customerVATNo);
+		if (empty($customerVATNo)) {
 			$isInvalidVATNumber = true;
 		} else {
+			/** @var int $customerCountryID */
 			$customerCountryID = (int) $post->shippingAddressCountry;
+			/** @var string $customerCountry */
 			$customerCountry = getCustomerCountryByID($customerCountryID);
+			/** @var array $matchedCustomerCountry */
 			$matchedCustomerCountry = $padloper->padloperUtilities->getCountryDetails($customerCountry);
 			$customerCountryCode = null;
 			if (!empty($matchedCustomerCountry['id'])) {
@@ -69,7 +73,7 @@ function customCheckCustomOrderCustomerFormForErrors(HookEvent $event) {
 				$isInvalidVATNumber = true;
 			} else {
 				// if business customer but VAT number invalid: error
-				$isInvalidVATNumber = empty(isValidVATNumber($customerCountryCode, $vatNumber));
+				$isInvalidVATNumber = empty(isValidVATNumber($customerCountryCode, $customerVATNo));
 			}
 		}
 
@@ -145,13 +149,14 @@ function customIsChargeEUDigitalGoodsTax(HookEvent $event) {
 	# ***** GOOD TO GO *****
 
 	$post = wire('input')->post;
+	$sanitizer = wire('sanitizer');
 	// ------
 	// @NOTE: HERE WE MIGHT NOT HAVE THIS! SO, USE POST INSTEAD!
 	// $currentOrderCustomer = $padloper->getOrderCustomer();
 	// bd($currentOrderCustomer, __METHOD__ . ': $currentOrderCustomer - at line #' . __LINE__);
 
 	// @note ->  we determine this programmatically
-	$customerVATNo = $post->customer_vat_number;
+	$customerVATNo = $sanitizer->purify($post->customer_vat_number);
 	$customerVATNo = preg_replace('/\s+/', '', $customerVATNo);
 	// ---------
 	/** @var int $customerCountryID */
@@ -172,6 +177,13 @@ function customIsChargeEUDigitalGoodsTax(HookEvent $event) {
 	$event->return = $value;
 }
 
+/**
+ * Checks if to EU Digital Tax is applicable on line item.
+ *
+ * @param string $customerVATNo VAT Number to validate.
+ * @param array $matchedCustomerCountry Customer country details.
+ * @return bool $isChargeEUDigitalGoodsTax Whether to charge digital tax.
+ */
 function checkIfChargeEUDigitalTax($customerVATNo, $matchedCustomerCountry) {
 
 	$padloper = wire('padloper');
@@ -181,6 +193,7 @@ function checkIfChargeEUDigitalTax($customerVATNo, $matchedCustomerCountry) {
 
 	$customerCountryCode = null;
 	if (!empty($matchedCustomerCountry['id'])) {
+		// we have a customer country code
 		$customerCountryCode = $matchedCustomerCountry['id'];
 	}
 
@@ -191,52 +204,70 @@ function checkIfChargeEUDigitalTax($customerVATNo, $matchedCustomerCountry) {
 
 	$isVendorAndCustomerInSameCountry = false;
 	if (!empty($shopCountryCode) && !empty($customerCountryCode)) {
+		// we have both vendor and customer country codes
+		// let's compare them
 		$isVendorAndCustomerInSameCountry = ucwords($shopCountryCode) === ucwords($customerCountryCode);
 	}
-	// bd($isVendorAndCustomerInSameCountry, __METHOD__ . ': $isVendorAndCustomerInSameCountry - FINAL - at line #' . __LINE__);
 	// VENDOR AND CUSTOMER **NOT** IN SAME COUNTRY
 	// check validity of VAT number
 	if (empty($isVendorAndCustomerInSameCountry)) {
 		$isChargeEUDigitalGoodsTax = true;
-		// ONLY FOR BUSINESS CUSTOMERS
+		// ** ONLY FOR BUSINESS CUSTOMERS **
 		$post = wire('input')->post;
 		// BUSINESS CUSTOMER
 		if (!empty((int)$post->is_business_customer)) {
+			// customer stated that they are a business customer
 			// ------
 			// CHECK IF VAT NUMBER IS VALID
 			$isValidVATNumber = isValidVATNumber($customerCountryCode, $customerVATNo);
 			if (!empty($isValidVATNumber)) {
+				// valid VAT Number
 				// ---------------
 				$isChargeEUDigitalGoodsTax = false;
 			}
 		}
 	}
-	// bd($isChargeEUDigitalGoodsTax, __METHOD__ . ': $isChargeEUDigitalGoodsTax - FINAL - at line #' . __LINE__);
 	// ------------
 	return $isChargeEUDigitalGoodsTax;
 }
 
+/**
+ * Check if a VAT number is valid.
+ *
+ * Uses simple PHP SOAP client against EU wsdl service.
+ *
+ * @param string $countryCode Country to validate VAT Number against.
+ * @param string $vatNumber VAT Number to validate.
+ * @return boolean $isValidVATNumber Whether supplied VAT number is valid.
+ */
 function isValidVATNumber($countryCode, $vatNumber) {
+	// ++++++++++
+	# @note: we don't remove country-specific prefixes and such!
+	# @todo: for production, developer needs to implement robustness
+	// ------------
 	$isValidVATNumber = false;
-	// bd($countryCode, __METHOD__ . ': $countryCode - at line #' . __LINE__);
-	// bd($vatNumber, __METHOD__ . ': $vatNumber - at line #' . __LINE__);
 	if (!empty($vatNumber)) {
+		// only check if VAT number is not empty
 		$wsdl = "http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl";
 		$client = new \SoapClient($wsdl);
-		// bd($client, __METHOD__ . ': $client - at line #' . __LINE__);
 		// -----
 		/** @var stdClass $vatDetails */
 		$vatDetails = $client->checkVat(array(
 			'countryCode' => $countryCode,
 			'vatNumber' => $vatNumber
 		));
-		// bd($vatDetails, __METHOD__ . ': $vatDetails - at line #' . __LINE__);
 		$isValidVATNumber = !empty($vatDetails->valid);
 	}
 
 	return $isValidVATNumber;
 }
 
+/**
+ * Get customer country using country ID.
+ *
+ * @param int $customerCountryID Country page ID.
+ * @return string|Null $customerCountry Customer country name if found, else Null
+ */
 function getCustomerCountryByID($customerCountryID) {
 	$padloper = wire('padloper');
 	$customerCountry = $padloper->getRaw("id={$customerCountryID},template=country", 'title');
