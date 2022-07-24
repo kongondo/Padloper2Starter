@@ -268,10 +268,10 @@ h1 > .product_is_customisable {
 	font-size: small;
 	}
 
-	textarea.product_customisation_details.hide{
-	display: none;
-	}
+textarea.product_customisation_details.hide{
+display: none;
+}
 
-	textarea.product_customisation_details.open{
-		display: initial;
-	}
+textarea.product_customisation_details.open{
+	display: initial;
+}
