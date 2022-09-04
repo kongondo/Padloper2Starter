@@ -1,4 +1,4 @@
-/* Padloper 2 Starter Site - DEMO 2 */
+// Padloper 2 Starter Site - DEMO 2
 
 const PadloperDemo2 = {
 	initHTMXXRequestedWithXMLHttpRequest: function () {
