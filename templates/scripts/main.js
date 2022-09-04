@@ -1,3 +1,5 @@
+/* Padloper 2 Starter Site - DEMO 2 */
+
 const PadloperDemo2 = {
 	initHTMXXRequestedWithXMLHttpRequest: function () {
 		document.body.addEventListener("htmx:configRequest", (event) => {
