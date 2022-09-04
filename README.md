@@ -37,3 +37,7 @@ Note that the underlying layout files for `Demo 4` differ slightly from those of
 *Buy Now Button*
 
 ![buy now button](/_screenshots/buy_now_button.jpg)
+
+*Demo Buy Now*
+
+![buy now button](/_screenshots/buy_now_demo.gif)
