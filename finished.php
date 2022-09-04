@@ -2,9 +2,9 @@
 
 namespace ProcessWire;
 
-if (!defined("PROCESSWIRE")) die();
-
 # Padloper 2 Starter Site - DEMO 2
+
+if (!defined("PROCESSWIRE")) die();
 
 /**
  * ProcessWire Request Finished
