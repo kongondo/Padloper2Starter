@@ -2,6 +2,8 @@
 
 namespace ProcessWire;
 
+# Padloper 2 Starter Site - DEMO 2
+
 /**
  * Initialize variables output in _main.php
  *

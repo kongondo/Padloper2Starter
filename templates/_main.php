@@ -2,7 +2,8 @@
 
 namespace ProcessWire;
 
-$padloperLogo = $config->urls->templates . "images/padloper_red.png"
+# Padloper 2 Starter Site - DEMO 2
+
 /**
  * _main.php
  * Main markup file (multi-language)

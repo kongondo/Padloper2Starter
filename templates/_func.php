@@ -2,6 +2,8 @@
 
 namespace ProcessWire;
 
+# Padloper 2 Starter Site - DEMO 2
+
 /**
  * /site/templates/_func.php
  *

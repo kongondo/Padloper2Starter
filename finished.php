@@ -1,6 +1,10 @@
-<?php namespace ProcessWire;
+<?php
 
-if(!defined("PROCESSWIRE")) die();
+namespace ProcessWire;
+
+if (!defined("PROCESSWIRE")) die();
+
+# Padloper 2 Starter Site - DEMO 2
 
 /**
  * ProcessWire Request Finished
