@@ -156,34 +156,10 @@ function getFormPreviousValues($formInputName, $formErrors = [], $previousValues
 			<?php echo getFormInputError('padloper_order_payment_id', $formErrors); ?>
 		</div>
 
-		<!-- @DEMO BUSINESS CUSTOMER WITH VAT NUMBER -->
-		<div>
-			<hr class="mt-5">
-			<h4 class="text-base mt-4"><?php echo __("Business Customers Only"); ?></h4>
-
-			<div class="mt-4 space-y-4" x-data="{ open: false }">
-				<!-- business customer with vat number checkbox -->
-				<div class='flex items-center'>
-					<input id='is_business_customer' name='is_business_customer' type='checkbox' value='1' class='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300' x-on:change="open = ! open">
-					<label for='is_business_customer' class='ml-3 block text-sm font-medium text-gray-700 cursor-pointer'>
-						<?php echo __("I have a valid VAT Number"); ?>
-					</label>
-				</div>
-				<!-- business customer VAT number input -->
-				<div class="col-span-full">
-					<div class="business_customer_vat hide" :class="open ? 'open' : ''">
-						<label for="customer_vat_number" class="block text-sm font-medium text-gray-700 cursor-pointer"><?php echo __("VAT Number"); ?></label>
-						<input name="customer_vat_number" id="customer_vat_number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('customer_vat_number', $formErrors, $previousValues); ?>">
-						<?php echo getFormInputError('customer_vat_number', $formErrors); ?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- end business customer VAT demo -->
 	</div>
 
 
 	<div>
-		<button name='customerForm' class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" value="1" type="submit"><?php echo __("Proceed wto Confirmation"); ?></button>
+		<button name='customerForm' class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" value="1" type="submit"><?php echo __("Proceed to Confirmation"); ?></button>
 	</div>
 </div>

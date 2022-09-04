@@ -284,13 +284,3 @@ ol.test_shipping_calculation_matched_rates_list ul {
 	margin-top: 5px;
 	margin-bottom: 10px;
 }
-
-/* VAT NUMBER DEMO */
-
-div.business_customer_vat.hide{
-	display: none;
-}
-
-div.business_customer_vat.open{
-		display: initial;
-}

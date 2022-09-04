@@ -35,7 +35,53 @@ const PadloperDemo4 = {
 			// ----------------
 			// re-init event listeners
 			PadloperDemo4.initMonitorCartItemAmountChange()
+
+			// >>> DEMO 4: REDIRECT CODE <<<
+			const triggerElement = event.detail.requestConfig.elt
+			const isRedirect =
+				triggerElement.dataset.isRedirect &&
+				parseInt(triggerElement.dataset.isRedirect) === 1
+			console.log(
+				"PadloperDemo4 - listenToHTMXRequests - isRedirect",
+				isRedirect
+			)
+
+			if (isRedirect) {
+				const targetElement = event.target
+				PadloperDemo4.triggerRedirect(targetElement)
+			}
 		})
+	},
+
+	// >>> DEMO 4: REDIRECT CODE <<<
+	/**
+	 * Trigger a redirect to a given uri location.
+	 * @param {Node} targetElement Target element with child element with redirect url info.
+	 */
+	triggerRedirect: function (targetElement) {
+		console.log(
+			"PadloperDemo4 - triggerRedirect - targetElement",
+			targetElement
+		)
+		if (targetElement) {
+			// get the html sent by server with ID 'redirect-element'
+			// it has info in data-redirect about URL to redirect to
+			const redirectElement = targetElement.querySelector("#redirect-element")
+			console.log(
+				"PadloperDemo4 - triggerRedirect - redirectElement",
+				redirectElement
+			)
+			if (redirectElement) {
+				const redirectURL = redirectElement.dataset.redirect
+				console.log(
+					"PadloperDemo4 - triggerRedirect - redirectURL",
+					redirectURL
+				)
+				if (redirectURL) {
+					window.location.href = redirectURL
+				}
+			}
+		}
 	},
 	getCSRFToken: function () {
 		// find hidden input with id 'csrf-token'
