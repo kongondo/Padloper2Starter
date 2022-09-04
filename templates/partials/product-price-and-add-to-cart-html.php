@@ -19,11 +19,6 @@ $selectVariantForPriceText = __("Select variant for price");
 // ---------
 $isProductWithVariants = $padloper->isProductWithVariants($product);
 $xstore = $isProductWithVariants ? "\$store.Padloper2DemoStore" : '';
-// -------
-// Buy Now (redirect) URL
-// @note: adding here so can set programmatically
-$redirectURL = "/checkout/";
-
 
 ?>
 
@@ -72,10 +67,6 @@ $redirectURL = "/checkout/";
         // @TODO IF USING VARIANTS, NEED TO BIND BUTTON USING ALPINE; OK WITH HTMX?
         $out .= "<button class='text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded' hx-post='{$post}' hx-target='#cart-summary' hx-swap='none'{$bindButtonMarkup}>" .
             __("Add to Cart") .
-            "</button>";
-        // >>> DEMO 4: REDIRECT CODE <<<
-        $out .= "<button data-is-redirect='1' data-redirect-url='{$redirectURL}' class='text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded ml-2' hx-post='{$post}' hx-target='#cart-summary' hx-swap='none'{$bindButtonMarkup}>" .
-            __("Buy Now") .
             "</button>";
         // -------------
         echo $out;

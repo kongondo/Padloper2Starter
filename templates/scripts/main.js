@@ -1,9 +1,9 @@
 // Padloper 2 Starter Site - DEMO 5
 
-const PadloperDemo4 = {
+const PadloperDemo5 = {
 	initHTMXXRequestedWithXMLHttpRequest: function () {
 		document.body.addEventListener("htmx:configRequest", (event) => {
-			const csrf_token = PadloperDemo4.getCSRFToken()
+			const csrf_token = PadloperDemo5.getCSRFToken()
 			event.detail.headers[csrf_token.name] = csrf_token.value
 			// add XMLHttpRequest to header to work with $config->ajax
 			event.detail.headers["X-Requested-With"] = "XMLHttpRequest"
@@ -30,45 +30,14 @@ const PadloperDemo4 = {
 			const pathInfo = event.detail.pathInfo.path
 			if (pathInfo === "/padloper/add/") {
 				const triggerElementID = "padloper_add_single_product"
-				PadloperDemo4.triggerHTMXReloadSideCart(triggerElementID)
+				PadloperDemo5.triggerHTMXReloadSideCart(triggerElementID)
 			}
 			// ----------------
 			// re-init event listeners
-			PadloperDemo4.initMonitorCartItemAmountChange()
-
-			// >>> DEMO 4: REDIRECT CODE <<<
-			// the element that triggered htmx (Buy Now button in this case)
-			const triggerElement = event.detail.requestConfig.elt
-			// if redirect is set on the button data-is-redirect value
-			// @see: templates\partials\product-price-and-add-to-cart-html.php
-			const isRedirect =
-				triggerElement.dataset.isRedirect &&
-				parseInt(triggerElement.dataset.isRedirect) === 1
-
-			// are we redirecting?
-			if (isRedirect) {
-				// yes we are; call function to do so
-				PadloperDemo4.triggerRedirect(triggerElement)
-			}
+			PadloperDemo5.initMonitorCartItemAmountChange()
 		})
 	},
 
-	// >>> DEMO 4: REDIRECT CODE <<<
-	/**
-	 * Trigger a redirect to a given uri location.
-	 * @param {Node} triggerElement Trigger element with data-redirect-url info.
-	 */
-	triggerRedirect: function (triggerElement) {
-		if (triggerElement) {
-			// get the redirect URL that was set on the Buy Now button on server side
-			// info in data-redirect-url attribute in the trigger button
-			const redirectURL = triggerElement.dataset.redirectUrl
-			if (redirectURL) {
-				// redirect to given location
-				window.location.href = redirectURL
-			}
-		}
-	},
 	getCSRFToken: function () {
 		// find hidden input with id 'csrf-token'
 		const tokenInput = htmx.find("._post_token")
@@ -93,7 +62,7 @@ const PadloperDemo4 = {
 				["click", "dblclick"].forEach(function (event) {
 					i.addEventListener(
 						event,
-						PadloperDemo4.handleCartItemAmountChange,
+						PadloperDemo5.handleCartItemAmountChange,
 						false
 					)
 				})
@@ -112,7 +81,7 @@ const PadloperDemo4 = {
 			cartItemAmountUpdateElement = clickedElement.closest("button")
 		}
 
-		PadloperDemo4.setChangedCartItemValues(cartItemAmountUpdateElement)
+		PadloperDemo5.setChangedCartItemValues(cartItemAmountUpdateElement)
 	},
 	setChangedCartItemValues: function (updatedCartItemElement) {
 		const currentCartItemIDInputElement = document.getElementById(
@@ -124,11 +93,11 @@ const PadloperDemo4 = {
 
 		if (currentCartItemIDInputElement && currentCartItemQuantityInputElement) {
 			const triggerElementID = "padloper_cart_updater"
-			PadloperDemo4.updateCurrentCartItemValues(
+			PadloperDemo5.updateCurrentCartItemValues(
 				currentCartItemIDInputElement,
 				currentCartItemQuantityInputElement,
 				updatedCartItemElement
-			).then(PadloperDemo4.triggerHTMXReloadSideCart(triggerElementID))
+			).then(PadloperDemo5.triggerHTMXReloadSideCart(triggerElementID))
 		}
 	},
 
@@ -173,11 +142,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 		// we have htmx
 		// --------
 		// init htmx header
-		PadloperDemo4.initHTMXXRequestedWithXMLHttpRequest()
+		PadloperDemo5.initHTMXXRequestedWithXMLHttpRequest()
 		// init listen to htmx requests
-		PadloperDemo4.listenToHTMXRequests()
+		PadloperDemo5.listenToHTMXRequests()
 		// init listen to sidecart increase/decrease item amount button
-		PadloperDemo4.initMonitorCartItemAmountChange()
+		PadloperDemo5.initMonitorCartItemAmountChange()
 	}
 })
 
