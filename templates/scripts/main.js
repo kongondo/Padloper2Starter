@@ -37,18 +37,18 @@ const PadloperDemo4 = {
 			PadloperDemo4.initMonitorCartItemAmountChange()
 
 			// >>> DEMO 4: REDIRECT CODE <<<
+			// the element that triggered htmx (Buy Now button in this case)
 			const triggerElement = event.detail.requestConfig.elt
+			// if redirect is set on the button data-is-redirect value
+			// @see: templates\partials\product-price-and-add-to-cart-html.php
 			const isRedirect =
 				triggerElement.dataset.isRedirect &&
 				parseInt(triggerElement.dataset.isRedirect) === 1
-			console.log(
-				"PadloperDemo4 - listenToHTMXRequests - isRedirect",
-				isRedirect
-			)
 
+			// are we redirecting?
 			if (isRedirect) {
-				const targetElement = event.target
-				PadloperDemo4.triggerRedirect(targetElement)
+				// yes we are; call function to do so
+				PadloperDemo4.triggerRedirect(triggerElement)
 			}
 		})
 	},
@@ -56,30 +56,16 @@ const PadloperDemo4 = {
 	// >>> DEMO 4: REDIRECT CODE <<<
 	/**
 	 * Trigger a redirect to a given uri location.
-	 * @param {Node} targetElement Target element with child element with redirect url info.
+	 * @param {Node} triggerElement Trigger element with data-redirect-url info.
 	 */
-	triggerRedirect: function (targetElement) {
-		console.log(
-			"PadloperDemo4 - triggerRedirect - targetElement",
-			targetElement
-		)
-		if (targetElement) {
-			// get the html sent by server with ID 'redirect-element'
-			// it has info in data-redirect about URL to redirect to
-			const redirectElement = targetElement.querySelector("#redirect-element")
-			console.log(
-				"PadloperDemo4 - triggerRedirect - redirectElement",
-				redirectElement
-			)
-			if (redirectElement) {
-				const redirectURL = redirectElement.dataset.redirect
-				console.log(
-					"PadloperDemo4 - triggerRedirect - redirectURL",
-					redirectURL
-				)
-				if (redirectURL) {
-					window.location.href = redirectURL
-				}
+	triggerRedirect: function (triggerElement) {
+		if (triggerElement) {
+			// get the redirect URL that was set on the Buy Now button on server side
+			// info in data-redirect-url attribute in the trigger button
+			const redirectURL = triggerElement.dataset.redirectUrl
+			if (redirectURL) {
+				// redirect to given location
+				window.location.href = redirectURL
 			}
 		}
 	},
