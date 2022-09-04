@@ -20,7 +20,9 @@ MORE TBD
 
 ### JavaScript
 
-TBD
+See `htmx:afterSettle` in [main.js](/templates/scripts/main.js) for redirect code.
+
+MORE TBD
 
 ### CSS
 
