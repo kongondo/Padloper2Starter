@@ -67,14 +67,7 @@ if ($isProductWithVariants) {
 }
 
 // ##########
-// is product customisable
-// --------
 $productTitle = $product->title;
-$customisableText = "";
-if (!empty($product->product_is_customisable)) {
-	$customisableText .= " <small class='product_is_customisable text-indigo-500'>" . __('customisable') . "</small>";
-	$productTitle .= $customisableText;
-}
 
 // description
 $description = $product->padloper_description;

@@ -56,26 +56,26 @@ $checkout = $padloper->checkout;
 */
 
 $customFormFields = [
-	// first name
-	[
-		// the name of the input of the custom form
-		'input_name' => 'first_name',
-		// the equivalent name if you were to use padloper inbuilt ProcessWire $form
-		// @TODO @NOTE: might change in the future!
-		'equivalent_padloper_input_name' => 'first_name',
-		// the input type (for sanitization)
-		// @todo: @note: for selects and checkbox, use the expected value type
-		'type' => 'text',
-		// if field/input is required
-		'required' => true
-	],
-	// last name
-	[
-		'input_name' => 'last_name',
-		'equivalent_padloper_input_name' => 'last_name',
-		'type' => 'text',
-		'required' => true
-	],
+	// // first name
+	// [
+	// 	// the name of the input of the custom form
+	// 	'input_name' => 'first_name',
+	// 	// the equivalent name if you were to use padloper inbuilt ProcessWire $form
+	// 	// @TODO @NOTE: might change in the future!
+	// 	'equivalent_padloper_input_name' => 'first_name',
+	// 	// the input type (for sanitization)
+	// 	// @todo: @note: for selects and checkbox, use the expected value type
+	// 	'type' => 'text',
+	// 	// if field/input is required
+	// 	'required' => true
+	// ],
+	// // last name
+	// [
+	// 	'input_name' => 'last_name',
+	// 	'equivalent_padloper_input_name' => 'last_name',
+	// 	'type' => 'text',
+	// 	'required' => true
+	// ],
 	// email
 	[
 		'input_name' => 'email',
@@ -84,32 +84,32 @@ $customFormFields = [
 		'required' => true
 	],
 	// address line one
-	[
-		'input_name' => 'address_line_one',
-		'equivalent_padloper_input_name' => 'shipping_address_line_one',
-		'type' => 'text',
-		'required' => true
-	],
+	// [
+	// 	'input_name' => 'address_line_one',
+	// 	'equivalent_padloper_input_name' => 'shipping_address_line_one',
+	// 	'type' => 'text',
+	// 	'required' => true
+	// ],
 	// address line two
-	[
-		'input_name' => 'address_line_two',
-		'equivalent_padloper_input_name' => 'shipping_address_line_two',
-		'type' => 'text',
-	],
+	// [
+	// 	'input_name' => 'address_line_two',
+	// 	'equivalent_padloper_input_name' => 'shipping_address_line_two',
+	// 	'type' => 'text',
+	// ],
 	// city/town
-	[
-		'input_name' => 'city',
-		'equivalent_padloper_input_name' => 'shipping_address_city',
-		'type' => 'text',
-		'required' => true
-	],
+	// [
+	// 	'input_name' => 'city',
+	// 	'equivalent_padloper_input_name' => 'shipping_address_city',
+	// 	'type' => 'text',
+	// 	'required' => true
+	// ],
 	// postcode
-	[
-		'input_name' => 'postcode',
-		'equivalent_padloper_input_name' => 'shipping_address_postal_code',
-		'type' => 'text',
-		'required' => true
-	],
+	// [
+	// 	'input_name' => 'postcode',
+	// 	'equivalent_padloper_input_name' => 'shipping_address_postal_code',
+	// 	'type' => 'text',
+	// 	'required' => true
+	// ],
 	// country
 	[
 		'input_name' => 'country',
@@ -119,11 +119,11 @@ $customFormFields = [
 		'required' => true
 	],
 	// region/state/province
-	[
-		'input_name' => 'state',
-		'equivalent_padloper_input_name' => 'shipping_address_region',
-		'type' => 'text'
-	],
+	// [
+	// 	'input_name' => 'state',
+	// 	'equivalent_padloper_input_name' => 'shipping_address_region',
+	// 	'type' => 'text'
+	// ],
 	// ------------------------
 
 	// SPECIAL (NON-ALIASED)
