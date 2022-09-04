@@ -6,7 +6,7 @@ Please read the `README` in the [main branch](https://github.com/kongondo/Padlop
 
 ## Demo
 
-This is the Padloper **Demo 5**. The main difference between this and [Demo 1](https://github.com/kongondo/Padloper2Starter/tree/demo-1) is that `Demo 5` shows how you can have checkout form with only a minimum number of inputs. In Demo 5, only email and country inputs are required.
+This is the Padloper **Demo 5**. The main difference between this and [Demo 1](https://github.com/kongondo/Padloper2Starter/tree/demo-1) is that `Demo 5` shows how you can have a checkout form with only a minimum number of inputs. In Demo 5, only email and country inputs are required.
 
 Please note that this demo requires that you use a custom checkout form (as per its files) instead of the Padloper inbuilt one. This will give you the flexibility to amend inputs to the form.
 
