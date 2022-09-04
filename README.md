@@ -14,7 +14,9 @@ Please note that this demo requires that you use a custom checkout form (as per 
 
 ### PHP
 
-TBD
+Have a look at the file [product-price-and-add-to-cart-html.php](/templates/partials/product-price-and-add-to-cart-html.php) for the `Buy Now` button.
+
+MORE TBD
 
 ### JavaScript
 
