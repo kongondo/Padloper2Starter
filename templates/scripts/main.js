@@ -1,9 +1,9 @@
-// Padloper 2 Starter Site - DEMO 3
+// Padloper 2 Starter Site - DEMO 4
 
-const PadloperDemo3 = {
+const PadloperDemo4 = {
 	initHTMXXRequestedWithXMLHttpRequest: function () {
 		document.body.addEventListener("htmx:configRequest", (event) => {
-			const csrf_token = PadloperDemo3.getCSRFToken()
+			const csrf_token = PadloperDemo4.getCSRFToken()
 			event.detail.headers[csrf_token.name] = csrf_token.value
 			// add XMLHttpRequest to header to work with $config->ajax
 			event.detail.headers["X-Requested-With"] = "XMLHttpRequest"
@@ -30,11 +30,11 @@ const PadloperDemo3 = {
 			const pathInfo = event.detail.pathInfo.path
 			if (pathInfo === "/padloper/add/") {
 				const triggerElementID = "padloper_add_single_product"
-				PadloperDemo3.triggerHTMXReloadSideCart(triggerElementID)
+				PadloperDemo4.triggerHTMXReloadSideCart(triggerElementID)
 			}
 			// ----------------
 			// re-init event listeners
-			PadloperDemo3.initMonitorCartItemAmountChange()
+			PadloperDemo4.initMonitorCartItemAmountChange()
 		})
 	},
 	getCSRFToken: function () {
@@ -61,7 +61,7 @@ const PadloperDemo3 = {
 				["click", "dblclick"].forEach(function (event) {
 					i.addEventListener(
 						event,
-						PadloperDemo3.handleCartItemAmountChange,
+						PadloperDemo4.handleCartItemAmountChange,
 						false
 					)
 				})
@@ -80,7 +80,7 @@ const PadloperDemo3 = {
 			cartItemAmountUpdateElement = clickedElement.closest("button")
 		}
 
-		PadloperDemo3.setChangedCartItemValues(cartItemAmountUpdateElement)
+		PadloperDemo4.setChangedCartItemValues(cartItemAmountUpdateElement)
 	},
 	setChangedCartItemValues: function (updatedCartItemElement) {
 		const currentCartItemIDInputElement = document.getElementById(
@@ -92,11 +92,11 @@ const PadloperDemo3 = {
 
 		if (currentCartItemIDInputElement && currentCartItemQuantityInputElement) {
 			const triggerElementID = "padloper_cart_updater"
-			PadloperDemo3.updateCurrentCartItemValues(
+			PadloperDemo4.updateCurrentCartItemValues(
 				currentCartItemIDInputElement,
 				currentCartItemQuantityInputElement,
 				updatedCartItemElement
-			).then(PadloperDemo3.triggerHTMXReloadSideCart(triggerElementID))
+			).then(PadloperDemo4.triggerHTMXReloadSideCart(triggerElementID))
 		}
 	},
 
@@ -141,11 +141,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 		// we have htmx
 		// --------
 		// init htmx header
-		PadloperDemo3.initHTMXXRequestedWithXMLHttpRequest()
+		PadloperDemo4.initHTMXXRequestedWithXMLHttpRequest()
 		// init listen to htmx requests
-		PadloperDemo3.listenToHTMXRequests()
+		PadloperDemo4.listenToHTMXRequests()
 		// init listen to sidecart increase/decrease item amount button
-		PadloperDemo3.initMonitorCartItemAmountChange()
+		PadloperDemo4.initMonitorCartItemAmountChange()
 	}
 })
 
