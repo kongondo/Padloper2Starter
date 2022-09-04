@@ -2,7 +2,7 @@
 
 ## Preamble
 
-Please read the `README` in the [main branch](https://github.com/kongondo/Padloper2Starter) before using `Demo 3`. Ensure you read about the requirements and instructions.
+Please read the `README` in the [main branch](https://github.com/kongondo/Padloper2Starter) before using `Demo 4`. Ensure you read about the requirements and instructions.
 
 ## Demo
 
