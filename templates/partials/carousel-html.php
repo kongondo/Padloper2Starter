@@ -10,28 +10,28 @@ namespace ProcessWire;
 $slides = [
 	[
 		'id' => 1,
-		'url' => $config->urls->templates . "images/home_slider_1.jpg",
+		'url' => $config->urls->templates . "images/carousel/home_slider_1.jpg",
 		'slogan' => 'Accessories'
 	],
 	[
 		'id' => 2,
-		'url' => $config->urls->templates . "images/wooden_clock.jpg",
+		'url' => $config->urls->templates . "images/carousel/wooden_clock.jpg",
 		'slogan' => "Real Bamboo Wall Clock",
 	],
 
 	[
 		'id' => 3,
-		'url' => $config->urls->templates . "images/old_diary.jpg",
+		'url' => $config->urls->templates . "images/carousel/old_diary.jpg",
 		'slogan' => "Brown and blue hardbound book",
 	],
 	[
 		'id' => 4,
-		'url' => $config->urls->templates . "images/duvet.jpg",
+		'url' => $config->urls->templates . "images/carousel/duvet.jpg",
 		'slogan' => "Stripy Zig Zag Jigsaw Pillow and Duvet Set",
 	],
 	[
 		'id' => 5,
-		'url' => $config->urls->templates . "images/home_slider_5.jpg",
+		'url' => $config->urls->templates . "images/carousel/home_slider_5.jpg",
 		'slogan' => 'Printed Matter'
 	]
 
