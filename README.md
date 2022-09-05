@@ -14,7 +14,11 @@ Please note that this demo requires that you use a custom checkout form (as per 
 
 ### PHP
 
-TBD
+The custom checkout form used in this demo is defined in the [checkout template](/templates/checkout.php) under the variable `$customFormFields`. Please refer to the documentation on [custom checkout form](https://docs.kongondo.com/start/checkout/custom-customer-form.html#supported-form-inputs) for more details. As stated, the `name`s of the inputs must match the properties of `FieldtypePadloperOrderCustomer` in order to be processed and saved with the order.
+
+The markup for the checkout form is in the partial template [checkout-form-html.php](/templates/partials/checkout-form-html.php). Specifically, it calles the render method `renderCheckoutFormCustomerDetails()` to get the markup from the file with the [customer details inputs](/templates/partials/checkout-form-customer-details-html.php).
+
+MORE TBD
 
 ### JavaScript
 
