@@ -38,6 +38,6 @@ Note that the underlying layout files for `Demo 5` differ slightly from those of
 
 ## Screenshots
 
-*Buy Now Button*
+*Minimal Checkout Form*
 
 ![minimal checkout form](/_screenshots/minimal_checkout_form.jpg)
