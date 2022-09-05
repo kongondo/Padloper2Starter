@@ -4,6 +4,7 @@ namespace ProcessWire;
 
 
 // checkout.php template file.
+// bd($input->post, __METHOD__ . ': $input->post at line #' . __LINE__);
 
 // @DO THE CART IS EMPTY, ETC THING!
 
@@ -22,28 +23,26 @@ $checkout = $padloper->checkout;
  - Not everyone prefers that due to CSS styling issues
  - Both the inbuilt and the custom form processors will validate the form
  - The inbuilt one will utilise ProcessWire $form->getErrors()
- - IF YOUR FORM USES CUSTOM NAMES FOR ITS INPUT, you will need to indicate this + provide a 'schema' for the name matching
- - @see below for details
- - The custom form processor will need the a schema of the custom form passed to it
+ - IF YOUR FORM USES CUSTOM NAMES FOR ITS INPUT, you will need to indicate this + provide a 'schema' for input matching
+ - The NAMES of the INPUT must match what Padloper 2 Expects. Please see below for examples as well as the documentation
+ - The custom form processor will need the schema of the custom form passed to it
  - e.g.:
 
  	$customFormFieldsExampleArray = [
 			[
-				// the name of the input of the custom form
+				// the name of the input of the custom form {must match Padloper 2 expected names}
 				'input_name' => 'email',
-				// the equivalent name if you were to use padloper inbuilt ProcessWire $form
-				'equivalent_padloper_input_name' => 'email',
 				// the input type (for sanitization)
 				'type' => 'email',
 				// if field/input is required
 				'required' => true
 			],
 			[
-				'input_name' => 'customer_first_name',
-				'equivalent_padloper_input_name' => 'first_name',
+				// customer first name 'firstName'
+				'input_name' => 'firstName',
 				'type' => 'text',
 				'required' => false // can be left out
-            ],
+			],
 
 		];
 
@@ -55,73 +54,66 @@ $checkout = $padloper->checkout;
 
 */
 
+# ***********************************
+# *** @note: 'input_name' values need to match properties in FieldtypePadloperOrderCustomer properties where applicable ***
+# @see: https://docs.kongondo.com/start/checkout/custom-customer-form.html#supported-form-inputs for more details
+
 $customFormFields = [
-	// // first name
+	// first name
 	// [
 	// 	// the name of the input of the custom form
-	// 	'input_name' => 'first_name',
-	// 	// the equivalent name if you were to use padloper inbuilt ProcessWire $form
-	// 	// @TODO @NOTE: might change in the future!
-	// 	'equivalent_padloper_input_name' => 'first_name',
+	// 	'input_name' => 'firstName',
 	// 	// the input type (for sanitization)
 	// 	// @todo: @note: for selects and checkbox, use the expected value type
 	// 	'type' => 'text',
 	// 	// if field/input is required
 	// 	'required' => true
 	// ],
-	// // last name
+	// last name
 	// [
-	// 	'input_name' => 'last_name',
-	// 	'equivalent_padloper_input_name' => 'last_name',
+	// 	'input_name' => 'lastName',
 	// 	'type' => 'text',
 	// 	'required' => true
 	// ],
 	// email
 	[
 		'input_name' => 'email',
-		'equivalent_padloper_input_name' => 'email',
 		'type' => 'email',
 		'required' => true
 	],
 	// address line one
 	// [
-	// 	'input_name' => 'address_line_one',
-	// 	'equivalent_padloper_input_name' => 'shipping_address_line_one',
+	// 	'input_name' => 'shippingAddressLineOne',
 	// 	'type' => 'text',
 	// 	'required' => true
 	// ],
 	// address line two
 	// [
-	// 	'input_name' => 'address_line_two',
-	// 	'equivalent_padloper_input_name' => 'shipping_address_line_two',
+	// 	'input_name' => 'shippingAddressLineTwo',
 	// 	'type' => 'text',
 	// ],
 	// city/town
 	// [
-	// 	'input_name' => 'city',
-	// 	'equivalent_padloper_input_name' => 'shipping_address_city',
+	// 	'input_name' => 'shippingAddressCity',
 	// 	'type' => 'text',
 	// 	'required' => true
 	// ],
 	// postcode
 	// [
-	// 	'input_name' => 'postcode',
-	// 	'equivalent_padloper_input_name' => 'shipping_address_postal_code',
+	// 	'input_name' => 'shippingAddressPostalCode',
 	// 	'type' => 'text',
 	// 	'required' => true
 	// ],
 	// country
 	[
-		'input_name' => 'country',
-		'equivalent_padloper_input_name' => 'shipping_address_country',
+		'input_name' => 'shippingAddressCountry',
 		// @note: country ID, hence integer!
 		'type' => 'integer',
 		'required' => true
 	],
 	// region/state/province
 	// [
-	// 	'input_name' => 'state',
-	// 	'equivalent_padloper_input_name' => 'shipping_address_region',
+	// 	'input_name' => 'shippingAddressRegion',
 	// 	'type' => 'text'
 	// ],
 	// ------------------------
@@ -165,11 +157,14 @@ $options = [
 ];
 /** @var WireData $response */
 // $response = $checkout->render($options);
+// // bd($response, __METHOD__ . ': $response at line #' . __LINE__);
+// // db($response, __METHOD__ . ': $response WHY HERE? at line #' . __LINE__);
 // ----------
 // @TODO: @NOTE: JUST SHOWING HOW TO USE INBUILT VS CUSTOM FORM
 // YOU WOULDN'T NEED THIS CHECK IF YOU KNEW YOU ARE USING A CUSTOM FORM :-)
 if (!empty($isCustomForm)) {
 	$response = $checkout->render($options);
+	// bd($response, __METHOD__ . ': $response at line #' . __LINE__);
 
 	// handle errors
 	if (!empty($response->errors)) {
