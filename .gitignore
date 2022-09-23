@@ -1,5 +1,6 @@
 /modules
 /assets
+/templates/
 /templates/errors
 admin.php
 basic-page.php
