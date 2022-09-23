@@ -113,3 +113,15 @@ TBD
 ### Demo 3
 
 [Demo 3](https://github.com/kongondo/Padloper2Starter/tree/demo-3) demonstrates how to use hooks to validate VAT numbers and amend the applicability of EU digital goods tax in relation to business customers. It uses extra custom inputs similar to Demo 2.
+
+### Demo 4
+
+[Demo 4](https://github.com/kongondo/Padloper2Starter/tree/demo-4) shows how you can add a Buy Now button. This allows a one-click-add-to-cart-and-go-to-checkout experience.
+
+### Demo 5
+
+[Demo 5](https://github.com/kongondo/Padloper2Starter/tree/demo-5) shows how you can have a checkout form with only a minimum number of inputs.
+
+### Demo 6
+
+[Demo 6](https://github.com/kongondo/Padloper2Starter/tree/demo-6) demonstrates how to use hooks to set initial customer checkout form values at order confirmation.
