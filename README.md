@@ -1,36 +1,21 @@
-﻿# Padloper 2 Starter Site - DEMO 3
+﻿# Padloper 2 Starter Site - DEMO 6
 
 ## Preamble
 
-Please read the `README` in the [main branch](https://github.com/kongondo/Padloper2Starter) before using `Demo 3`. Ensure you read about the requirements and instructions.
+Please read the `README` in the [main branch](https://github.com/kongondo/Padloper2Starter) before using `Demo 6`. Ensure you read about the requirements and instructions.
 
 ## Demo
 
-This is the Padloper **Demo 3**. The main difference between this and [Demo 2](https://github.com/kongondo/Padloper2Starter/tree/demo-2) is that `Demo 3` shows how you can add inputs for and collect and process VAT information from business customers during checkout. Specifically, how to allow business customers to add VAT information (hence exemption from certain taxes) at checkout and subsequently validate their VAT numbers.
+This is the Padloper **Demo 6**. This demo shows how you can set initial customer details to the checkout form values at order confirmation using hooks, i.e. a pre-filled form.
 
-In addition, `Demo 3` demonstrates how to use hooks to validate VAT numbers and amend the applicability of EU digital goods tax. This is illustrated in the use case [mentioned here](https://processwire.com/talk/topic/27271-eu-taxes-for-digital-products/) in the Padloper support forums. In this case, in addition to checking if a customer is based in the EU, if a line item is a digital product and if the shop's policy is to apply EU Digital Goods tax, the hook also checks:
-
-- If customer is a business customer with a valid VAT Number for their stated (shipping) country.
-- If customer and vendor are located in the same country.
-
-Please note that this demo requires that you use a custom checkout form (as per its files) instead of the Padloper inbuilt one. This will give you the flexibility to add custom inputs to the form.
-
-**Please note that it is your responsibility to ensure that your shop charges correct taxes per your country's regulations.**
+Please note that this demo can be used with both the inbuilt Padloper checkout form or any custom checkout form.
 
 ## Hooks
 
-### Check VAT Number Information for Business Customers
+### Set Initial Order Customer Checkout Form Values
 
-The hook `customCheckCustomOrderCustomerFormForErrors` in [ready.php](/ready.php) will process inputs for VAT for business customers. This function hooks into `PadloperProcessOrder::checkCustomOrderCustomerFormForErrors`.
+The hook `customGetOrderCustomer` in [ready.php](/ready.php) will set initial order customer checkout form values for a **pretend customer** who is logged in. This function hooks into `PadloperProcessOrder::getOrderCustomer`. *Please note the check for login status and retrieval of the initial customer details is not implemented in the demo*. You will need to code such logic yourself. The hook only kicks in once; before an order page has been created.
 
-
-### Amend Applicability of EU Digital Goods Tax
-
-This hook checks whether to apply tax on digital goods per EU Digital Goods Tax. It carries out the checks specified in the [Demo section above](#demo).
-
-To accomplish the above, we add the hook `customIsChargeEUDigitalGoodsTax` in [ready.php](/ready.php). This function hooks into `PadloperUtilities::isChargeEUDigitalGoodsTax`.
-
->Please note that this is not a robust solution to validating VAT number! In this implementation, we don't remove country-specific prefixes, etc. You will need to implement robustness in your production code!
 
 ## Files
 
@@ -53,10 +38,10 @@ TBD
 
 ## Layout
 
-Note that the underlying layout files for `Demo 3` differ slightly from those of `Demo 1`. In `Demo 3`, the checkout `form` spans across the whole grid layout to encompass the `order summary` column on the right. This is in order to include any inputs that you might wish to include in that grid column.
+Note that the underlying layout files for `Demo 6` differ slightly from those of `Demo 1`. In `Demo 6`, the checkout `form` spans across the whole grid layout to encompass the `order summary` column on the right. This is in order to include any inputs that you might wish to include in that grid column.
 
 ## Screenshots
 
 *Business Customer*
 
-![business customer](/_screenshots/checkout_business_customer.jpg)
+![business customer](/_screenshots/checkout_form_with_initial_customer_details.jpg)
