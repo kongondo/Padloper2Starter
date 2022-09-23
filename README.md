@@ -14,7 +14,7 @@ Please note that this demo can be used with both the inbuilt Padloper checkout f
 
 ### Set Initial Order Customer Checkout Form Values
 
-The hook `customGetOrderCustomer` in [ready.php](/ready.php) will set initial order customer checkout form values for a **pretend customer** who is logged in. This function hooks into `PadloperProcessOrder::getOrderCustomer`. *Please note the check for login status and retrieval of the initial customer details is not implemented in the demo*. You will need to code such logic yourself. The hook only kicks in once; before an order page has been created.
+The hook `customGetOrderCustomer` in [ready.php](/ready.php) will set initial order customer checkout form values for a **pretend customer** who is logged in. This function hooks into `PadloperProcessOrder::getOrderCustomer`. *Please note the check for login status and retrieval of the initial customer details is not implemented in the demo*. You will need to code such logic yourself. The hook only kicks in once; before an order page has been created. A use case is [illustrated here](https://processwire.com/talk/topic/27599-setting-initial-customer-form-values-at-confirmation-using-inbuilt-form/) in the Padloper support forums.
 
 
 ## Files
