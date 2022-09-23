@@ -42,6 +42,6 @@ Note that the underlying layout files for `Demo 6` differ slightly from those of
 
 ## Screenshots
 
-*Business Customer*
+*Pre-filled (initial) Customer Checkout Form*
 
 ![business customer](/_screenshots/checkout_form_with_initial_customer_details.jpg)
