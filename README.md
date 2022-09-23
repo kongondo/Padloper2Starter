@@ -124,4 +124,4 @@ TBD
 
 ### Demo 6
 
-[Demo 6](https://github.com/kongondo/Padloper2Starter/tree/demo-6) demonstrates how to use hooks to set initial customer checkout form values at order confirmation.
+[Demo 6](https://github.com/kongondo/Padloper2Starter/tree/demo-6) demonstrates how to use hooks to set initial customer details to the checkout form values at order confirmation. I.e., a pre-filled form.
