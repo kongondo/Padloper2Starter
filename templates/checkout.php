@@ -29,21 +29,19 @@ $checkout = $padloper->checkout;
 
  	$customFormFieldsExampleArray = [
 			[
-				// the name of the input of the custom form
+				// the name of the input of the custom form {must match Padloper 2 expected names}
 				'input_name' => 'email',
-				// the equivalent name if you were to use padloper inbuilt ProcessWire $form
-				'equivalent_padloper_input_name' => 'email',
 				// the input type (for sanitization)
 				'type' => 'email',
 				// if field/input is required
 				'required' => true
 			],
 			[
-				'input_name' => 'customer_first_name',
-				'equivalent_padloper_input_name' => 'first_name',
+				// customer first name 'firstName'
+				'input_name' => 'firstName',
 				'type' => 'text',
 				'required' => false // can be left out
-            ],
+			],
 
 		];
 
@@ -59,10 +57,9 @@ $customFormFields = [
 	// first name
 	[
 		// the name of the input of the custom form
-		'input_name' => 'first_name',
+		'input_name' => 'firstName',
 		// the equivalent name if you were to use padloper inbuilt ProcessWire $form
 		// @TODO @NOTE: might change in the future!
-		'equivalent_padloper_input_name' => 'first_name',
 		// the input type (for sanitization)
 		// @todo: @note: for selects and checkbox, use the expected value type
 		'type' => 'text',
@@ -71,57 +68,49 @@ $customFormFields = [
 	],
 	// last name
 	[
-		'input_name' => 'last_name',
-		'equivalent_padloper_input_name' => 'last_name',
+		'input_name' => 'lastName',
 		'type' => 'text',
 		'required' => true
 	],
 	// email
 	[
 		'input_name' => 'email',
-		'equivalent_padloper_input_name' => 'email',
 		'type' => 'email',
 		'required' => true
 	],
 	// address line one
 	[
-		'input_name' => 'address_line_one',
-		'equivalent_padloper_input_name' => 'shipping_address_line_one',
+		'input_name' => 'shippingAddressLineOne',
 		'type' => 'text',
 		'required' => true
 	],
 	// address line two
 	[
-		'input_name' => 'address_line_two',
-		'equivalent_padloper_input_name' => 'shipping_address_line_two',
+		'input_name' => 'shippingAddressLineTwo',
 		'type' => 'text',
 	],
 	// city/town
 	[
-		'input_name' => 'city',
-		'equivalent_padloper_input_name' => 'shipping_address_city',
+		'input_name' => 'shippingAddressCity',
 		'type' => 'text',
 		'required' => true
 	],
 	// postcode
 	[
-		'input_name' => 'postcode',
-		'equivalent_padloper_input_name' => 'shipping_address_postal_code',
+		'input_name' => 'shippingAddressPostalCode',
 		'type' => 'text',
 		'required' => true
 	],
 	// country
 	[
-		'input_name' => 'country',
-		'equivalent_padloper_input_name' => 'shipping_address_country',
+		'input_name' => 'shippingAddressCountry',
 		// @note: country ID, hence integer!
 		'type' => 'integer',
 		'required' => true
 	],
 	// region/state/province
 	[
-		'input_name' => 'state',
-		'equivalent_padloper_input_name' => 'shipping_address_region',
+		'input_name' => 'shippingAddressRegion',
 		'type' => 'text'
 	],
 	// ------------------------
