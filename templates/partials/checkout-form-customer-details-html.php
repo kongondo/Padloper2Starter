@@ -49,15 +49,15 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                 <div class="grid grid-cols-6 gap-6">
                     <!-- FIRST NAME -->
                     <div class="col-span-6 md:col-span-3">
-                        <label for="first_name" class="block text-sm font-medium text-gray-700"><?php echo __("First Name"); ?></label>
-                        <input type="text" name="first_name" id="first_name" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('first_name', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('first_name', $formErrors); ?>
+                        <label for="firstName" class="block text-sm font-medium text-gray-700"><?php echo __("First Name"); ?></label>
+                        <input type="text" name="firstName" id="firstName" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('firstName', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('firstName', $formErrors); ?>
                     </div>
                     <!-- LAST NAME -->
                     <div class="col-span-6 md:col-span-3">
-                        <label for="last_name" class="block text-sm font-medium text-gray-700"><?php echo __("Last Name"); ?></label>
-                        <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('last_name', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('last_name', $formErrors); ?>
+                        <label for="lastName" class="block text-sm font-medium text-gray-700"><?php echo __("Last Name"); ?></label>
+                        <input type="text" name="lastName" id="lastName" autocomplete="family-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('lastName', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('lastName', $formErrors); ?>
                     </div>
                     <!-- EMAIL -->
                     <div class=" col-span-6">
@@ -68,39 +68,39 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
 
                     <!-- ADDRESS LINE 1 -->
                     <div class=" col-span-6">
-                        <label for="address_line_one" class="block text-sm font-medium text-gray-700"><?php echo __("Address"); ?></label>
-                        <input type="text" name="address_line_one" id="address_line_one" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('address_line_one', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('address_line_one', $formErrors); ?>
+                        <label for="shippingAddressLineOne" class="block text-sm font-medium text-gray-700"><?php echo __("Address"); ?></label>
+                        <input type="text" name="shippingAddressLineOne" id="shippingAddressLineOne" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('shippingAddressLineOne', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('shippingAddressLineOne', $formErrors); ?>
                     </div>
                     <!-- ADDRESS CONTINUED -->
                     <div class=" col-span-6">
-                        <label for="address_line_two" class="block text-sm font-medium text-gray-700"><?php echo __("Address (continued)"); ?></label>
-                        <input type="text" name="address_line_two" id="address_line_two" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('address_line_two', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('address_line_two', $formErrors); ?>
+                        <label for="shippingAddressLineTwo" class="block text-sm font-medium text-gray-700"><?php echo __("Address (continued)"); ?></label>
+                        <input type="text" name="shippingAddressLineTwo" id="shippingAddressLineTwo" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('shippingAddressLineTwo', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('shippingAddressLineTwo', $formErrors); ?>
                     </div>
                     <!-- CITY / TOWN -->
                     <div class=" col-span-6 md:col-span-3">
-                        <label for="city" class="block text-sm font-medium text-gray-700"><?php echo __("City / Town"); ?></label>
-                        <input type="text" name="city" id="city" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('city', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('city', $formErrors); ?>
+                        <label for="shippingAddressCity" class="block text-sm font-medium text-gray-700"><?php echo __("City / Town"); ?></label>
+                        <input type="text" name="shippingAddressCity" id="shippingAddressCity" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('shippingAddressCity', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('shippingAddressCity', $formErrors); ?>
                     </div>
 
                     <!-- POSTCODE / ZIP -->
                     <div class=" col-span-6 md:col-span-3">
-                        <label for="postcode" class="block text-sm font-medium text-gray-700"><?php echo __("Postcode / Zip"); ?></label>
-                        <input type="text" name="postcode" id="postcode" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('postcode', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('postcode', $formErrors); ?>
+                        <label for="shippingAddressPostalCode" class="block text-sm font-medium text-gray-700"><?php echo __("Postcode / Zip"); ?></label>
+                        <input type="text" name="shippingAddressPostalCode" id="shippingAddressPostalCode" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('shippingAddressPostalCode', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('shippingAddressPostalCode', $formErrors); ?>
                     </div>
                     <!-- COUNTRY -->
                     <div class=" col-span-6 md:col-span-3">
-                        <label for="country" class="block text-sm font-medium text-gray-700"><?php echo __("Country"); ?></label>
-                        <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-indigo-100">
+                        <label for="shippingAddressCountry" class="block text-sm font-medium text-gray-700"><?php echo __("Country"); ?></label>
+                        <select id="shippingAddressCountry" name="shippingAddressCountry" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-indigo-100">
                             <option></option>
                             <!-- @todo: get from utilities + dynamic for shipping countries -->
                             <?php
                             $out = "";
                             // in case form failed validation, we need the previous country value to be selected
-                            $previousValue = getFormPreviousValues('country', $formErrors, $previousValues);
+                            $previousValue = getFormPreviousValues('shippingAddressCountry', $formErrors, $previousValues);
                             // bd($previousValue, __METHOD__ . ': $previousValue - PREVIOUS COUNTRY VALUE at line #' . __LINE__);
                             // ------------
                             // @TODO check needed here if no shippingCountries found!
@@ -118,13 +118,13 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
                             echo $out;
                             ?>
                         </select>
-                        <?php echo getFormInputError('country', $formErrors); ?>
+                        <?php echo getFormInputError('shippingAddressCountry', $formErrors); ?>
                     </div>
                     <!-- STATE / PROVINCE -->
                     <div class="col-span-6 md:col-span-3">
-                        <label for="state" class="block text-sm font-medium text-gray-700"><?php echo __("State / Province"); ?></label>
-                        <input type="text" name="state" id="state" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('state', $formErrors, $previousValues); ?>">
-                        <?php echo getFormInputError('state', $formErrors); ?>
+                        <label for="shippingAddressRegion" class="block text-sm font-medium text-gray-700"><?php echo __("State / Province"); ?></label>
+                        <input type="text" name="shippingAddressRegion" id="shippingAddressRegion" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 bg-indigo-100 px-5 py-1" value="<?php echo getFormPreviousValues('shippingAddressRegion', $formErrors, $previousValues); ?>">
+                        <?php echo getFormInputError('shippingAddressRegion', $formErrors); ?>
                     </div>
 
                 </div>
