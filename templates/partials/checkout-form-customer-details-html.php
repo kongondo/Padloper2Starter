@@ -158,12 +158,6 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
 					echo $out;
 
 					?>
-					<!-- <div class="flex items-center">
-						<input id="padloper_payment_paypal" name="pad_paymentmodule" type="radio" value="PadloperPaymentPayPal" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-						<label for="padloper_payment_paypal" class="required ml-3 block text-sm font-medium text-gray-700" required="required">
-							<?php echo __("PayPal"); ?>
-						</label>
-					</div> -->
 					<?php echo getFormInputError('padloper_order_payment_id', $formErrors); ?>
 				</div>
 			</div>
