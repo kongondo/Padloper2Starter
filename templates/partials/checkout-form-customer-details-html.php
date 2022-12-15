@@ -94,7 +94,7 @@ function getFormPreviousValues($formInputName, $formErrors, $previousValues) {
 					<!-- COUNTRY -->
 					<div class=" col-span-6 md:col-span-3">
 						<label for="shippingAddressCountry" class="block text-sm font-medium text-gray-700"><?php echo __("Country"); ?></label>
-						<select id="shippingAddressCountry"="shippingAddressCountry" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-indigo-100">
+						<select id="shippingAddressCountry" name="shippingAddressCountry" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-indigo-100">
 							<option></option>
 							<!-- @todo: get from utilities + dynamic for shipping countries -->
 							<?php
