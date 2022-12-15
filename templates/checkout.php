@@ -29,7 +29,7 @@ $checkout = $padloper->checkout;
 
  	$customFormFieldsExampleArray = [
 			[
-				// the name of the input of the custom form
+				// the name of the input of the custom form {must match Padloper 2 expected names}
 				'input_name' => 'email',
 				// the input type (for sanitization)
 				'type' => 'email',
@@ -37,10 +37,11 @@ $checkout = $padloper->checkout;
 				'required' => true
 			],
 			[
+				// customer first name 'firstName'
 				'input_name' => 'firstName',
 				'type' => 'text',
 				'required' => false // can be left out
-            ],
+			],
 
 		];
 
